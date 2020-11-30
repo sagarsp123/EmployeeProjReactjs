@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
-
+import Navigation from './Navigation';
+import Footer from './Footer';
+import Header from './Header';
 //Creating bootstrap Grid
 import {Table} from 'react-bootstrap';
 
 import {Button, ButtonToolbar} from 'react-bootstrap';
 
 import AddEmpModal from './AddEmpModal';
+import DeleteEmpModal from './DeleteEmpModal';
 
 import EditEmpModal from './EditEmpModal';
 
 class Employee extends Component {
     constructor(props){
         super(props);
-        this.state={emps:[],addModalShow:false}
+        this.state={emps:[],addModalShow:false,deleteModalShow:false}
     }
     componentDidMount(){
         this.refreshList();
@@ -20,7 +23,7 @@ class Employee extends Component {
 
     refreshList(){        
         //Consuming values from Api (GET method)
-        fetch('http://localhost:63308/api/employee')
+        fetch('https://localhost:44366/api/employees')
         .then(response=> response.json())
         .then(data=> {
             this.setState({
@@ -36,28 +39,34 @@ class Employee extends Component {
     }
 
      //Deleting values from Api
-    deleteEmp(empid){
-        if(window.confirm('Are you sure?'))
-        {
-            fetch('http://localhost:63308/api/employee/'+empid,
-            {
-                method:'DELETE',
-                header:{'Accept':'application/json',
-                'Content-Type':'application/json'}
-            })
-        }
-    }
+    // deleteEmp(empid){
+    //     if(window.confirm('Are you sure?'))
+    //     {
+    //         fetch('http://localhost:63308/api/employee/'+empid,
+    //         {
+    //             method:'DELETE',
+    //             header:{'Accept':'application/json',
+    //             'Content-Type':'application/json'}
+    //         })
+    //     }
+    // }
 
     render() { 
         const{emps,empid,empname,department,mailid,doj}=this.state;
                 let addModalClose =() => this.setState({addModalShow:false});
                 let editModalClose =() => this.setState({editModalShow:false});
+                let deleteModalClose =() => this.setState({deleteModalShow:false});
         return ( 
             // <div className="mt-5 d-flex justify-content-left">
             //     <h3>This is Employee page.</h3>
-            // </div> 
+            // </div>
+            <div className="page-container">
+            <div className="content-wrap">
+            <div className="container">
+            <Header></Header>
+                <Navigation></Navigation>
                 <div>
-                    <Table className="mt-4" striped bordered hover size="sm">
+                    <Table striped bordered hover size="sm">
                         <thead>
                             <tr>
                                 <th>EmployeeID</th>
@@ -70,26 +79,32 @@ class Employee extends Component {
                         </thead>
                         <tbody>
                             {emps.map(emp=>
-                                <tr key={emp.EmployeeID}>
-                                <td>{emp.EmployeeID}</td>
-                                <td>{emp.EmployeeName}</td>
-                                <td>{emp.Department}</td>
-                                <td>{emp.MailID}</td>
-                                <td>{emp.DOJ}</td>
+                                <tr id={emp.employeeID} key={emp.employeeID}>
+                                <td>{emp.employeeID}</td>
+                                <td>{emp.employeeName}</td>
+                                <td>{emp.department}</td>
+                                <td>{emp.mailID}</td>
+                                <td>{emp.doj}</td>
                                 <td>
                                     <ButtonToolbar>
                                         <Button className="m-2" variant="info" 
                                         onClick={()=> this.setState({editModalShow:true,
-                                        empid:emp.EmployeeID,empname:emp.EmployeeName,
-                                        department: emp.Department,
-                                        mailid:emp.MailID,
-                                        doj:emp.DOJ})}>
+                                        empid:emp.employeeID,empname:emp.employeeName,
+                                        department: emp.department,
+                                        mailid:emp.mailID,
+                                        doj:emp.doj})}>
                                             Edit
                                             </Button>
-                                            <Button
+                                            {/* <Button
                                             className="m-2"
                                             onClick={()=> this.deleteEmp(emp.EmployeeID)} variant="danger"
                                             > Delete
+                                            </Button> */}
+                                            <Button
+                                            className="m-2"
+                                            onClick={()=> this.setState({deleteModalShow:true,empid:emp.employeeID})} 
+                                            variant="danger">
+                                             Delete
                                             </Button>
                                             <EditEmpModal
                                              show = {this.state.editModalShow}
@@ -100,6 +115,12 @@ class Employee extends Component {
                                              mailid = {mailid}
                                              doj = {doj}
                                             ></EditEmpModal>
+                                             <DeleteEmpModal 
+                                             show = {this.state.deleteModalShow}
+                                             onHide = {deleteModalClose}
+                                             empid = {empid}>
+
+                                             </DeleteEmpModal>
                                     </ButtonToolbar>
                                 </td>
                                 </tr>
@@ -114,6 +135,10 @@ class Employee extends Component {
                     </AddEmpModal>
                 </ButtonToolbar>
                 </div>
+          </div>
+        </div>
+        <Footer></Footer>
+     </div>
          );
     }
 }

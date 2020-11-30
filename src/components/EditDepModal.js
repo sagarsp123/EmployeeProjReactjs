@@ -19,27 +19,37 @@ class EditDepModal extends Component {
         handleSubmit(event){
           event.preventDefault();
           // alert(event.target.DepartmentName.value);
-    
+          
           //consuming post Api method
-          fetch('http://localhost:63308/api/department',{
+          fetch('https://localhost:44366/api/departments',{
             method:'PUT',
             headers:{
               'Accept':'application/json',
               'Content-Type':'application/json'
             },
             body:JSON.stringify({
-              DepartmentID:event.target.DepartmentID.value,
-              DepartmentName: event.target.DepartmentName.value
+              departmentID:event.target.DepartmentID.value,
+              departmentName: event.target.DepartmentName.value
             })
           })
-          .then(res=> res.json())
+          .then(res=> {res.json()
+          if(res.status == 200)
+          {
+            this.setState({snackbaropen:true,snackbarmsg:'Updated Successfully'});
+          }
+          else
+          {
+            this.setState({snackbaropen:true,snackbarmsg:'Update Failed'});
+          }
+          })
           .then((result)=>{
-            alert(result);
-            this.setState({snackbaropen:true,snackbarmsg:result});
+            // alert(result);
+            // console.log(result);
+            // this.setState({snackbaropen:true,snackbarmsg:result});
           },
           (error)=>{
             //alert('Failed')
-            this.setState({snackbaropen:true,snackbarmsg:'Failed'});
+            // this.setState({snackbaropen:true,snackbarmsg:'Failed'});
           }
           )
         }
@@ -71,7 +81,6 @@ class EditDepModal extends Component {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            
                 <Row>
                   <Col sm={6}>
                     <Form onSubmit={this.handleSubmit}>

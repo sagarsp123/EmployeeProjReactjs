@@ -1,34 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
 import Button from 'react-bootstrap/Button';
-import Home from './components/Home';
-import Department from './components/Department';
-import Employee from './components/Employee';
-
+import SwitchPath from './components/SwitchPath';
+import Header from './components/Header';
 //Implementing Component Routing in React
 import {BrowserRouter, Route,Switch} from 'react-router-dom';
 import Navigation from './components/Navigation';
+import Signup from './components/Signup';
+import Login from './components/Login';
 
 function App() {
   return (
     <BrowserRouter>
+   
     <div className="container">
-
-        <h3 className="m-3 d-flex justify-content-center">
-          This is React JS with Web api Demo
-        </h3>
-        <h5 className="m-3 d-flex justify-content-center">
-         Employee Management Portal
-        </h5>
-        {/* Navigation Menu */}
-        <Navigation></Navigation>
-        <Switch>
-          <Route path='/' component={Home} exact></Route>
-          <Route path='/Department' component={Department}></Route>
-          <Route part='/Employee' component={Employee}></Route>
-        </Switch>
+        {/* <h3 className="m-3 d-flex justify-content-center">
+        Employee Management Portal
+        </h3> */}
+        {/* <Navigation></Navigation> */}
+       <SwitchPath></SwitchPath>
     </div>
     </BrowserRouter>
+    // <Signup></Signup>
+
+
+  
   );
 }
 

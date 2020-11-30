@@ -23,25 +23,35 @@ export class AddDepModal extends Component {
       // alert(event.target.DepartmentName.value);
 
       //consuming post Api method
-      fetch('http://localhost:63308/api/department',{
+      fetch('https://localhost:44366/api/departments',{
         method:'POST',
         headers:{
           'Accept':'application/json',
           'Content-Type':'application/json'
         },
         body:JSON.stringify({
-          DepartmentID:null,
-          DepartmentName: event.target.DepartmentName.value
+          departmentID:0,
+          departmentName: event.target.DepartmentName.value
         })
       })
-      .then(res=> res.json())
+      .then(res=> {res.json()
+        console.log(res);
+        if(res.status == 201)
+        {
+          this.setState({snackbaropen:true,snackbarmsg:'Added Successfully'});
+        }
+        else
+        {
+          this.setState({snackbaropen:true,snackbarmsg:'Operation Failed'});
+        }
+      })
       .then((result)=>{
         // alert(result);
-        this.setState({snackbaropen:true,snackbarmsg:result});
+        // this.setState({snackbaropen:true,snackbarmsg:result});
       },
       (error)=>{
         //alert('Failed')
-        this.setState({snackbaropen:true,snackbarmsg:'Failed'});
+        // this.setState({snackbaropen:true,snackbarmsg:'Failed'});
       }
       )
     }

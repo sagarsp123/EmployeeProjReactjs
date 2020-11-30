@@ -15,7 +15,7 @@ class EditEmpModal extends Component {
 
     //Collecting all department details using api which can be used as value for Department drop-down list
     componentDidMount(){
-        fetch('http://localhost:63308/api/department')
+        fetch('https://localhost:44366/api/departments')
         .then(response=> response.json())
         .then(data=> {
             this.setState({
@@ -34,28 +34,38 @@ class EditEmpModal extends Component {
           // alert(event.target.DepartmentName.value);
     
           //consuming post Api method
-          fetch('http://localhost:63308/api/employee',{
+          fetch('https://localhost:44366/api/employees',{
             method:'PUT',
             headers:{
               'Accept':'application/json',
               'Content-Type':'application/json'
             },
             body:JSON.stringify({
-                EmployeeID:event.target.EmployeeID.value,
-                EmployeeName: event.target.EmployeeName.value,
-                Department: event.target.Department.value,
-                MailID: event.target.MailID.value,
-                DOJ: event.target.DOJ.value
+              employeeID:event.target.EmployeeID.value,
+              employeeName: event.target.EmployeeName.value,
+              department: event.target.Department.value,
+              mailID: event.target.MailID.value,
+              doj: event.target.DOJ.value
             })
           })
-          .then(res=> res.json())
+          .then(res=> {res.json()
+            console.log(res);
+            if(res.status == 200)
+            {
+              this.setState({snackbaropen:true,snackbarmsg:'Updated Successfully'});
+            }
+            else
+            {
+              this.setState({snackbaropen:true,snackbarmsg:'Update Failed'});
+            }
+          })
           .then((result)=>{
             // alert(result);
-            this.setState({snackbaropen:true,snackbarmsg:result});
+            // this.setState({snackbaropen:true,snackbarmsg:result});
           },
           (error)=>{
             //alert('Failed')
-            this.setState({snackbaropen:true,snackbarmsg:'Failed'});
+            // this.setState({snackbaropen:true,snackbarmsg:'Failed'});
           }
           )
         }
@@ -104,7 +114,7 @@ class EditEmpModal extends Component {
                         <Form.Label>Department</Form.Label>
                         <Form.Control as="select" defaultValue={this.props.department}>
                             {this.state.deps.map(dep=> 
-                            <option key={dep.DepartmentID}>{dep.DepartmentName}</option>
+                            <option key={dep.departmentID}>{dep.departmentName}</option>
                                 )}
                         </Form.Control>
                       </Form.Group>
@@ -114,7 +124,7 @@ class EditEmpModal extends Component {
                       </Form.Group>
                       <Form.Group controlId="DOJ">
                         <Form.Label>DOJ</Form.Label>
-                        <Form.Control type="date" name="DOJ" required defaultValue={this.props.doj} placeholder="DOJ"></Form.Control>
+                        <Form.Control type="datetime" disabled name="DOJ" required defaultValue={this.props.doj} placeholder="DOJ"></Form.Control>
                       </Form.Group>
                       <Form.Group>
                         <Button variant="primary" type="submit">

@@ -15,7 +15,7 @@ class AddEmpModal extends Component {
 
     //Collecting all department details using api which can be used as value for Department drop-down list
     componentDidMount(){
-        fetch('http://localhost:63308/api/department')
+        fetch('https://localhost:44366/api/departments')
         .then(response=> response.json())
         .then(data=> {
             this.setState({
@@ -34,28 +34,37 @@ class AddEmpModal extends Component {
           // alert(event.target.DepartmentName.value);
     
           //consuming post Api method
-          fetch('http://localhost:63308/api/employee',{
+          fetch('https://localhost:44366/api/employees',{
             method:'POST',
             headers:{
               'Accept':'application/json',
               'Content-Type':'application/json'
             },
             body:JSON.stringify({
-                EmployeeID:null,
-                EmployeeName: event.target.EmployeeName.value,
-                Department: event.target.Department.value,
-                MailID: event.target.MailID.value,
-                DOJ: event.target.DOJ.value
+              employeeID:0,
+              employeeName: event.target.EmployeeName.value,
+              department: event.target.Department.value,
+              mailID: event.target.MailID.value,
+              doj: event.target.DOJ.value
             })
           })
-          .then(res=> res.json())
+          .then(res=> {res.json()
+            if(res.status == 201)
+            {
+              this.setState({snackbaropen:true,snackbarmsg:'Added Successfully'});
+            }
+            else
+            {
+              this.setState({snackbaropen:true,snackbarmsg:'Operation Failed'});
+            }
+          })
           .then((result)=>{
             // alert(result);
-            this.setState({snackbaropen:true,snackbarmsg:result});
+            // this.setState({snackbaropen:true,snackbarmsg:result});
           },
           (error)=>{
             //alert('Failed')
-            this.setState({snackbaropen:true,snackbarmsg:'Failed'});
+            // this.setState({snackbaropen:true,snackbarmsg:'Failed'});
           }
           )
         }
@@ -102,7 +111,7 @@ class AddEmpModal extends Component {
                         {/* Creating Drop-down */}
                         <Form.Control as="select">
                             {this.state.deps.map(dep=> 
-                            <option key={dep.DepartmentID}>{dep.DepartmentName}</option>
+                            <option key={dep.departmentID}>{dep.departmentName}</option>
                                 )}
                         </Form.Control>                        
                       </Form.Group>

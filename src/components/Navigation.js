@@ -10,13 +10,18 @@ class Navigation extends Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav>
                 <NavLink className="d-inline p-2 bg-dark text-white"
-                to="/">Home</NavLink>
+                to="/Home">Home</NavLink>
+                <NavLink className="d-inline p-2 bg-dark text-white"
+                to="/Aboutus">About Us</NavLink>
                 <NavLink className="d-inline p-2 bg-dark text-white"
                 to="/department">Department</NavLink>
                 <NavLink className="d-inline p-2 bg-dark text-white"
                 to="/employee">Employee</NavLink>
+                 <NavLink className="d-inline p-2 bg-dark text-white"
+                to="/">Logout</NavLink>
                 </Nav>
                 </Navbar.Collapse>
+                
             </Navbar>
          );
     }
