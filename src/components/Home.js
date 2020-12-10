@@ -6,14 +6,40 @@ import Navigation from './Navigation';
 import Footer from './Footer';
 import Header from './Header';
 import Signup from './Signup';
+import ManagerNavigation from './ManagerNavgiation';
 import './Aboutus.css'
+import { CloseOutlined } from '@material-ui/icons';
 class Home extends Component {
     // handleClick = () => {
 
     //     this.props.history.push("/signup");
         
     //  }
+    
+    constructor(props){
+        super(props);
+
+        this.state = {isLoading:true,userdata:[]};
+    }
+
+    componentWillMount(){
+        localStorage.getItem('currentUser') && this.setState({
+            userdata:JSON.parse(localStorage.getItem('currentUser')),
+            isLoading:false
+        })
+    }
+
+   
     render() { 
+        console.log(this.props.location.state);
+        console.log("Userdata",this.state.userdata);
+        let comp = "";
+        if (this.state.userdata.userRole == 'Employee') {
+            comp = <Navigation></Navigation>
+          } else {
+            comp = <ManagerNavigation></ManagerNavigation>
+          }
+      
         return ( 
             <div className="page-container">
             <div className="content-wrap">
@@ -23,10 +49,13 @@ class Home extends Component {
         Employee Management Portal
         </h3> */}
                 <Header></Header>
-                <Navigation></Navigation>
+                {/* <Navigation empID={this.props.location.state.userID}></Navigation> */}
+               {comp}
+                
             <div className="mt-5 d-flex justify-content-left">
               
                 <h3>Welcome to Employee Management Portal!!!</h3>
+                    {/* <p>{this.state.userdata.userID}</p> */}
                 <br></br>
                 <container>
                 {/* <h3 style={styleObj}>About Us</h3> */}

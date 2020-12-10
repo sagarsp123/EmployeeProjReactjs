@@ -88,12 +88,14 @@ export class AddDepModal extends Component {
                 <Row>
                   <Col sm={6}>
                     <Form onSubmit={this.handleSubmit}>
-                      <Form.Group controlId="DepartmentName">
-                        <Form.Label>DepartmentName</Form.Label>
+                      <Form.Group as={Row} controlId="DepartmentName">
+                        <Form.Label column sm="5">Department Name</Form.Label>
+                        <Col sm="7">
                         <Form.Control type="text" name="DepartmentName" required placeholder="DepartmentName"></Form.Control>
+                        </Col>
                       </Form.Group>
                       <Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button className="PoupButtonCss" variant="grey" type="submit">
                           Add Department
                         </Button>
                       </Form.Group>

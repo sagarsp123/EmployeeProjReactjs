@@ -24,7 +24,80 @@
   color: white;
 }
 
-.Signin {
+.fontSizesm {
+  font-size: calc(3px + 2vmin);
+}
+
+.validationText {
+  font-size: calc(1px + 2vmin);
+  color: red;
+}
+
+.validationTextLogin {
+  font-size: calc(1px + 2vmin);
+  color: red;
+  margin-left: 10%;
+}
+
+.validationTextPopup {
+  font-size: calc(1px + 2vmin);
+  color: red;
+}
+
+.validationTextSignup {
+  font-size: calc(1px + 2vmin);
+  color: red;
+  margin-left: 37%;
+}
+
+.NavDropDownColorCss {
+  color: white;
+}
+#nav-dropdown {
+  color: white;
+}
+
+.tableCss {
+  width: 70%;
+  height: 70%;
+  margin-left: 20%;
+  border: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(4px + 2vmin);
+}
+
+.ButtonCssLogin {
+  margin-top: 10%;
+  margin-left: 30%;
+  background-color: gray;
+  color: white;
+}
+
+.GeryButtonCss {
+  background-color: gray;
+  color: white;
+}
+
+.PoupButtonCss {
+  margin-top: 5%;
+  background-color: gray;
+  color: white;
+}
+
+.ButtonCssclose {
+  margin-top: 10%;
+  margin-left: 30%;
+  background-color: red;
+  color: white;
+}
+
+.RequireFiledCss {
+  color: red;
+}
+
+/* .Signin {
   background: linear-gradient(-135deg, #c850c0, #4158d0);
   min-height: 100vh;
   display: flex;
@@ -33,6 +106,52 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+} */
+
+.Signin {
+  background-color: white;
+  /* min-height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(7px + 2vmin);
+  color: black;
+}
+
+.inlineFlex {
+  margin-top: 2%;
+}
+
+.inlineFlexLogin {
+  margin-top: 2%;
+  margin-left: 10%;
+}
+
+.inlineFlexSignup {
+  margin-top: 2%;
+  margin-left: 37%;
+}
+.cofirmpasstxt {
+  width: 247px;
+}
+
+.marginCss {
+  margin-top: 5%;
+}
+
+.marginCssleft {
+  margin-left: 18%;
+}
+
+.leaveReq {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(4px + 2vmin);
+  color: black;
 }
 
 .page-container {

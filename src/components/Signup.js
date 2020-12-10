@@ -5,7 +5,8 @@ import {BrowserRouter, Route,Switch,withRouter,Router} from 'react-router-dom';
 import hashHistory from 'react-router'
 import SwitchPath from './SwitchPath';
 import Home from './Home'
-
+import Header from './Header';
+import Footer from './Footer';
 //Importing Snackbar notification
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -131,7 +132,7 @@ class Signup extends Component {
   validatePasswordConfirmation() {
     let passwordConfirmationError = "";
     if (this.state.password !== this.state.passwordConfirmation)
-      passwordConfirmationError = "Password does not match Confirmation";
+      passwordConfirmationError = "Password does not match";
 
     this.setState({
       passwordConfirmationError
@@ -156,72 +157,78 @@ class Signup extends Component {
              ]}>
               
              </Snackbar>
-                 
-                <Row className="Signin "> 
-                <h2 className="m-3 d-flex justify-content-center">
+                 <Header></Header>
+                <Row className="Signin"> 
+                {/* <h2 className="m-3 d-flex justify-content-center">
          Employee Management Portal
-        </h2>
+        </h2> */}
         <hr></hr>
                 <h3>Sign Up</h3>              
                   <p>Please fill this form to create an account.</p>      
                   <Col  sm={4}>
               
                     <Form onSubmit={this.handleSubmit}>
-                      <Form.Group controlId="emailAddress">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="text" name="emailAddress" required placeholder="Enter Email" 
+                      <Form.Group as={Row} controlId="emailAddress">
+                        <Form.Label className ="fontSizesm" column sm="3">Email<sup className="RequireFiledCss">*</sup></Form.Label>
+                        <Col sm="9">
+                        <Form.Control className="inlineFlexSignup" type="text" name="emailAddress" required placeholder="Enter Email" 
                            value={this.state.emailAddress}
                            onChange={this.handleChange}
                            onBlur={this.handleBlur}
                            autoComplete="off"  ></Form.Control> 
                             {this.state.emailAddressError && (
-              <div className="errorMsg">{this.state.emailAddressError}</div>
-            )}                           
+              <div className="validationTextSignup">{this.state.emailAddressError}</div>
+            )}             
+                      </Col>              
                       </Form.Group>
-                      <Form.Group controlId="password">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" name="password" required placeholder="Enter Password" 
+                      <Form.Group as={Row} controlId="password">
+                        <Form.Label className ="fontSizesm" column sm="3">Password<sup className="RequireFiledCss">*</sup></Form.Label>
+                        <Col sm="9">
+                        <Form.Control className="inlineFlexSignup" type="password" name="password" required placeholder="Enter Password" 
                          value={this.state.password}
                             onChange={this.handleChange}
                             onBlur={this.handleBlur}
                             autoComplete="off"></Form.Control>
-                            <br />
               {this.state.passwordError && (
-              <div className="errorMsg">{this.state.passwordError}</div>
+              <div className="validationTextSignup">{this.state.passwordError}</div>
             )}
+            </Col>
                       </Form.Group>
-                      <Form.Group controlId="passwordConfirmation">
-                        <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" name="passwordConfirmation" required placeholder="Confirm Password" 
+                      <Form.Group as={Row} controlId="passwordConfirmation">
+                        <Form.Label className ="fontSizesm" column sm="6">Confirm Password<sup className="RequireFiledCss">*</sup></Form.Label>
+                        <Col sm="6">
+                        <Form.Control className="cofirmpasstxt" type="password" name="passwordConfirmation" required placeholder="Confirm Password" 
                           value={this.state.passwordConfirmation}
                           onChange={this.handleChange}
                           onBlur={this.handleBlur}
                           autoComplete="off"></Form.Control>
-                          <br />
             {this.state.passwordConfirmationError && (
-              <div className="errorMsg">
+              <div className="validationTextSignup">
                 {this.state.passwordConfirmationError}
               </div>
             )}
+            </Col>
                       </Form.Group>
-                      <Form.Group controlId="UserRole">
-                        <Form.Label>Role</Form.Label>
-                        <Form.Control as="select">
+                      <Form.Group as={Row} controlId="UserRole">
+                        <Form.Label className ="fontSizesm" column sm="3">Role</Form.Label>
+                        <Col sm="9">
+                        <Form.Control className="inlineFlexSignup" as="select">
                             <option id="1">Employee</option>
                             <option id="2">Manager</option>
-                        </Form.Control>  
+                        </Form.Control> 
+                        </Col> 
                       </Form.Group>
                       <Form.Group>
-                        <Button varient="primary" type="submit">
+                        <Button className="ButtonCssLogin" variant="grey" type="submit">
                         Sign Up
                          </Button>
-                        <Button classname="m-2"  onClick={event =>  window.location.href='/'} style={{marginLeft: 30}} variant="danger">Close</Button>
+                        <Button className="ButtonCssclose" variant="danger" onClick={event =>  window.location.href='/'} style={{marginLeft: 30}}>Close</Button>
                       </Form.Group>
                     </Form>
                   </Col>
                 </Row>
                 
-                
+                <Footer></Footer>
       </div>
       </body>
            

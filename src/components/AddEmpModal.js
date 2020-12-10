@@ -5,12 +5,54 @@ import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 
+const emailValidator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 class AddEmpModal extends Component {
     constructor(props){
         super(props);
 
-        this.state = {deps:[],snackbaropen:false,snackbarmsg:''};
+        this.state = {deps:[],snackbaropen:false,snackbarmsg:'', EmailID:"",emailAddressError: ""};
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+        this.validateEmailAddress = this.validateEmailAddress.bind(this);
+        this.validateField = this.validateField.bind(this);
+    }
+
+    handleChange(event) {
+      const { name, value } = event.target;
+  
+      this.setState({
+        [name]: value
+      });
+  
+      return;
+    }
+  
+    handleBlur(event) {
+      const { name } = event.target;
+  
+      this.validateField(name);
+      return;
+    }
+
+    validateField(name) {
+      let isValid = false;
+  
+       if (name === "EmailID") isValid = this.validateEmailAddress();
+    }
+    
+    validateEmailAddress() {
+      let emailAddressError = "";
+      const value = this.state.EmailID;
+      if (value.trim === "") emailAddressError = "Email Address is required";
+      else if (!emailValidator.test(value))
+        emailAddressError = "Email is not valid";
+  
+      this.setState({
+        emailAddressError
+      });
+      return emailAddressError === "";
     }
 
     //Collecting all department details using api which can be used as value for Department drop-down list
@@ -44,7 +86,7 @@ class AddEmpModal extends Component {
               employeeID:0,
               employeeName: event.target.EmployeeName.value,
               department: event.target.Department.value,
-              mailID: event.target.MailID.value,
+              mailID: event.target.EmailID.value,
               doj: event.target.DOJ.value
             })
           })
@@ -98,33 +140,49 @@ class AddEmpModal extends Component {
             <Modal.Body>
             
                 <Row>
-                  <Col sm={6}>
+                  <Col sm={8}>
                     <Form onSubmit={this.handleSubmit}>
-                      <Form.Group controlId="EmployeeName">
-                        <Form.Label>EmployeeName</Form.Label>
-                        <Form.Control type="text" name="EmployeeName" required placeholder="EmployeeName"></Form.Control>                        
+                      <Form.Group  as={Row} controlId="EmployeeName">
+                        <Form.Label column sm="4">Employee Name</Form.Label>
+                        <Col sm="8">
+                        <Form.Control type="text" name="EmployeeName" required placeholder="EmployeeName"></Form.Control>
+                        </Col>                        
                       </Form.Group>
-                      <Form.Group controlId="Department">
-                        <Form.Label>Department</Form.Label>
+                      <Form.Group as={Row} controlId="Department">
+                        <Form.Label column sm="4">Department</Form.Label>
                         {/* <Form.Control type="text" name="Department" required placeholder="Department"></Form.Control> */}
                         
                         {/* Creating Drop-down */}
+                        <Col sm="8">
                         <Form.Control as="select">
                             {this.state.deps.map(dep=> 
                             <option key={dep.departmentID}>{dep.departmentName}</option>
                                 )}
-                        </Form.Control>                        
+                        </Form.Control>   
+                        </Col>                     
                       </Form.Group>
-                      <Form.Group controlId="MailID">
-                        <Form.Label>MailID</Form.Label>
-                        <Form.Control type="text" name="MailID" required placeholder="MailID"></Form.Control>
+                      <Form.Group  as={Row} controlId="EmailID">
+                        <Form.Label  column sm="4">Email</Form.Label>
+                        <Col sm="8">
+                        <Form.Control type="text" name="EmailID" required placeholder="Email"
+                         value={this.state.EmailID}
+                         onChange={this.handleChange}
+                         onBlur={this.handleBlur}
+                         autoComplete="off"
+                        ></Form.Control>
+                        {this.state.emailAddressError && (
+              <div className="validationTextPopup">{this.state.emailAddressError}</div>
+            )}                 
+                        </Col>
                       </Form.Group>
-                      <Form.Group controlId="DOJ">
-                        <Form.Label>DOJ</Form.Label>
+                      <Form.Group  as={Row} controlId="DOJ">
+                        <Form.Label column sm="4">DOJ</Form.Label>
+                        <Col sm="8">
                         <Form.Control type="date" name="DOJ" required placeholder="DOJ"></Form.Control>
+                        </Col>
                       </Form.Group>
                       <Form.Group>
-                        <Button varient="primary" type="submit">
+                        <Button className="PoupButtonCss" variant="grey" type="submit">
                           Add Employee
                         </Button>
                       </Form.Group>

@@ -1,16 +1,60 @@
 import React, { Component } from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
-
+import * as moment from 'moment';
 //Importing Snackbar notification
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
+
+const emailValidator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 class EditEmpModal extends Component {
     constructor(props){
         super(props);
 
-        this.state = {deps:[],snackbaropen:false,snackbarmsg:''};
+        this.state = {deps:[],snackbaropen:false,snackbarmsg:'',  EmailID:this.props.mailid,
+        emailAddressError: "",Doj:this.props.doj};
+
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+        this.validateEmailAddress = this.validateEmailAddress.bind(this);
+        this.validateField = this.validateField.bind(this);
+    }
+
+    handleChange(event) {
+      const { name, value } = event.target;
+  
+      this.setState({
+        [name]: value
+      });
+  
+      return;
+    }
+  
+    handleBlur(event) {
+      const { name } = event.target;
+  
+      this.validateField(name);
+      return;
+    }
+
+    validateField(name) {
+      let isValid = false;
+  
+       if (name === "EmailID") isValid = this.validateEmailAddress();
+    }
+    
+    validateEmailAddress() {
+      let emailAddressError = "";
+      const value = this.state.EmailID;
+      if (value.trim === "") emailAddressError = "Email Address is required";
+      else if (!emailValidator.test(value))
+        emailAddressError = "Email is not valid";
+  
+      this.setState({
+        emailAddressError
+      });
+      return emailAddressError === "";
     }
 
     //Collecting all department details using api which can be used as value for Department drop-down list
@@ -44,8 +88,8 @@ class EditEmpModal extends Component {
               employeeID:event.target.EmployeeID.value,
               employeeName: event.target.EmployeeName.value,
               department: event.target.Department.value,
-              mailID: event.target.MailID.value,
-              doj: event.target.DOJ.value
+              mailID: event.target.EmailID.value,
+              doj:this.state.Doj
             })
           })
           .then(res=> {res.json()
@@ -100,34 +144,49 @@ class EditEmpModal extends Component {
             <Modal.Body>
             
                 <Row>
-                  <Col sm={6}>
+                  <Col sm={8}>
                     <Form onSubmit={this.handleSubmit}>
-                    <Form.Group controlId="EmployeeID">
+                    <Form.Group style={{display:"none"}} controlId="EmployeeID">
                         <Form.Label>EmployeeID</Form.Label>
                         <Form.Control type="text" name="EmployeeID" required defaultValue={this.props.empid} disabled placeholder="EmployeeID"></Form.Control>
                       </Form.Group>
-                      <Form.Group controlId="EmployeeName">
-                        <Form.Label>EmployeeName</Form.Label>
+                      <Form.Group as={Row} controlId="EmployeeName">
+                        <Form.Label column sm="5">Employee Name</Form.Label>
+                        <Col sm="7">
                         <Form.Control type="text" name="EmployeeName" required defaultValue={this.props.empname} placeholder="EmployeeName"></Form.Control>
+                        </Col>
                       </Form.Group>
-                      <Form.Group controlId="Department">
-                        <Form.Label>Department</Form.Label>
+                      <Form.Group as={Row} controlId="Department">
+                        <Form.Label column sm="5">Department</Form.Label>
+                        <Col sm="7">
                         <Form.Control as="select" defaultValue={this.props.department}>
                             {this.state.deps.map(dep=> 
                             <option key={dep.departmentID}>{dep.departmentName}</option>
                                 )}
                         </Form.Control>
+                        </Col>
                       </Form.Group>
-                      <Form.Group controlId="MailID">
-                        <Form.Label>MailID</Form.Label>
-                        <Form.Control type="text" name="MailID" required defaultValue={this.props.mailid} placeholder="MailID"></Form.Control>
+                      <Form.Group as={Row} controlId="EmailID">
+                        <Form.Label column sm="5">Email</Form.Label>
+                        <Col sm="7">
+                        <Form.Control type="text" name="EmailID" required defaultValue={this.props.mailid} placeholder="Email ID"
+                         onChange={this.handleChange}
+                         onBlur={this.handleBlur}
+                         autoComplete="off">
+                         </Form.Control>
+                         {this.state.emailAddressError && (
+              <div className="validationTextPopup">{this.state.emailAddressError}</div>
+            )}                 
+                        </Col>
                       </Form.Group>
-                      <Form.Group controlId="DOJ">
-                        <Form.Label>DOJ</Form.Label>
-                        <Form.Control type="datetime" disabled name="DOJ" required defaultValue={this.props.doj} placeholder="DOJ"></Form.Control>
+                      <Form.Group as={Row} controlId="DOJ">
+                        <Form.Label column sm="5">DOJ</Form.Label>
+                        <Col sm="7">
+                        <Form.Control type="datetime" disabled name="DOJ" required defaultValue={moment(this.state.Doj).format('DD/MM/YYYY')} placeholder="DOJ"></Form.Control>
+                        </Col>
                       </Form.Group>
                       <Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button  className="PoupButtonCss" variant="grey" type="submit">
                           Update Employee
                         </Button>
                       </Form.Group>

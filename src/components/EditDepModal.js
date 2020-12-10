@@ -84,16 +84,18 @@ class EditDepModal extends Component {
                 <Row>
                   <Col sm={6}>
                     <Form onSubmit={this.handleSubmit}>
-                    <Form.Group controlId="DepartmentID">
+                    <Form.Group style={{display:"none"}} controlId="DepartmentID">
                         <Form.Label>DepartmentID</Form.Label>
                         <Form.Control type="text" name="DepartmentID" required defaultValue={this.props.depid} disabled placeholder="DepartmentID"></Form.Control>
                       </Form.Group>
-                      <Form.Group controlId="DepartmentName">
-                        <Form.Label>DepartmentName</Form.Label>
+                      <Form.Group as={Row} controlId="DepartmentName">
+                        <Form.Label column sm="5">Department Name</Form.Label>
+                        <Col sm="7">
                         <Form.Control type="text" name="DepartmentName" required defaultValue={this.props.depname} placeholder="DepartmentName"></Form.Control>
+                        </Col>
                       </Form.Group>
                       <Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button className="PoupButtonCss" variant="grey" type="submit">
                           Update Department
                         </Button>
                       </Form.Group>

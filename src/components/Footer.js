@@ -1,18 +1,18 @@
 import React from 'react';
-import "./Footer.css";
+import "./Footer.css"
 
 const Footer = () => {
     return(
         <div className="main-footer">
         <div className="container">
-            <div className="row">
-           {/* column1 */}
+           <div className="row">
+          
         <div className="col"> 
-        <h4> LNTINFO INC</h4>
+        <h5> LTI </h5>
         <ul className="list-unstyled">
-        <li>022-523-2555</li>
-        <li>Mumbai, India</li>
         <li>326 Mindspace</li>
+        <li>Mumbai, India</li>
+        
         
 
         </ul>
@@ -20,25 +20,25 @@ const Footer = () => {
 
 
         <div className="col">
-            <h4>HELP</h4>
+            <h6>HELP</h6>
             <ul className="list-unstyled">
                 <li>Call Services</li>
-                <li>Guide Section</li>
+            
                 <li>FAQ</li>
             </ul>
         </div>
 
 
         <div className="col">
-            <h4>CONTACT US</h4>
+            <h6>CONTACT US</h6>
             <ul className="list-unstyled">
                 <li>About Us</li>
                 <li>Services</li>
-                <li>Updates</li>
+                
             </ul>
         </div>
 
-            </div>
+            </div> 
         <hr/>
             <div className="row">
             <p className="col-sm">

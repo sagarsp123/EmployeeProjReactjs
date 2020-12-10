@@ -10,7 +10,7 @@ import Login from './components/Login';
 
 function App() {
   return (
-    <BrowserRouter>
+
    
     <div className="container">
         {/* <h3 className="m-3 d-flex justify-content-center">
@@ -19,7 +19,7 @@ function App() {
         {/* <Navigation></Navigation> */}
        <SwitchPath></SwitchPath>
     </div>
-    </BrowserRouter>
+
     // <Signup></Signup>
 
 

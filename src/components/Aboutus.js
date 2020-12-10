@@ -3,8 +3,20 @@ import {Col, Container,  Image} from 'react-bootstrap';
 import './Aboutus.css';
 import Navigation from './Navigation';
 import Header from './Header';
-
+import ManagerNavigation from './ManagerNavgiation';
 class Aboutus extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {isLoading:true,userdata:[]};
+    }
+
+    componentWillMount(){
+        localStorage.getItem('currentUser') && this.setState({
+            userdata:JSON.parse(localStorage.getItem('currentUser')),
+            isLoading:false
+        })
+    }
     
     render() { 
         const styleObj = {
@@ -12,13 +24,20 @@ class Aboutus extends Component {
             textAlign: "center",
          
         }
+        let comp = "";
+        if (this.state.userdata.userRole == 'Employee') {
+            comp = <Navigation></Navigation>
+          } else {
+            comp = <ManagerNavigation></ManagerNavigation>
+          }
         return ( 
+            
             <div className="container">
             {/* <h3 className="m-3 d-flex justify-content-center">
     Employee Management Portal
     </h3> */}
             <Header></Header>
-            <Navigation></Navigation>
+           {comp}
             
             {/* <div className="mt-5 d-flex justify-content-left"></div> */}
                 {/* <h2>About Us </h2>

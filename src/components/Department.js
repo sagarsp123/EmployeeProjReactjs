@@ -10,19 +10,24 @@ import DeleteDepModal from './DeleteDepModal';
 import Navigation from './Navigation';
 import Footer from './Footer';
 import Header from './Header';
-
+import ManagerNavigation from './ManagerNavgiation';
 class Department extends Component {
     constructor(props){
         super(props);
-        this.state={deps:[],addModalShow:false,deleteModalShow:false,messageBoxOpen:false}
+        this.state={deps:[],addModalShow:false,deleteModalShow:false,messageBoxOpen:false,isLoading:true,userdata:[]}
     }
 
     componentDidMount(){
         this.refreshList();
     }
+    componentWillMount(){
+        localStorage.getItem('currentUser') && this.setState({
+            userdata:JSON.parse(localStorage.getItem('currentUser')),
+            isLoading:false
+        })
+    }
 
-   
-   refreshList(){
+    refreshList(){
         //Hardcoded values
         // this.setState({
         //     deps:[{"DepartmentID":1,"DepartmentName":"IT"},
@@ -36,9 +41,13 @@ class Department extends Component {
             this.setState({
                 deps:data          
             });
-            // console.log(data);
+            console.log(data);
         }  
         );
+        // const url = "https://localhost:44366/api/departments";
+        // const response = await fetch(url);
+        // const data = await response.json();
+        // console.log(data);
    
        
     }
@@ -67,6 +76,12 @@ class Department extends Component {
         let addModalClose =() => this.setState({addModalShow:false});
         let editModalClose =() => this.setState({editModalShow:false});
         let deleteModalClose =() => this.setState({deleteModalShow:false});
+        let comp = "";
+        if (this.state.userdata.userRole == 'Employee') {
+            comp = <Navigation></Navigation>
+          } else {
+            comp = <ManagerNavigation></ManagerNavigation>
+          }
         return ( 
             // <div className="mt-5 d-flex justify-content-left">
             //     <h3>This is Department page.</h3>
@@ -75,13 +90,13 @@ class Department extends Component {
             <div className="content-wrap">
             <div className="container">
             <Header></Header>
-                <Navigation></Navigation>
+            {comp}
             <div>
             {/* <Table className="mt-4" striped bordered hover size="sm"> */}
             <Table striped bordered hover size="sm">
                 <thead>
                     <tr>
-                        <th>DepartmentID</th>
+                        {/* <th>DepartmentID</th> */}
                         <th>DepartmentName</th>
                         <th>Options</th>
                     </tr>
@@ -89,11 +104,11 @@ class Department extends Component {
                 <tbody>
                     {deps.map(dep=>
                         <tr id={dep.departmentID} key={dep.departmentID}>
-                        <td>{dep.departmentID}</td>
+                        {/* <td>{dep.departmentID}</td> */}
                         <td>{dep.departmentName}</td>
                         <td>
                             <ButtonToolbar>
-                                <Button className="m-2"  variant="info" 
+                                <Button className="m-2 GeryButtonCss" variant="grey" 
                                 onClick={()=> this.setState({editModalShow:true,depid:dep.departmentID,depname:dep.departmentName})}>
                                     Edit
                                     </Button>
@@ -129,7 +144,7 @@ class Department extends Component {
                 </tbody>
             </Table>
             <ButtonToolbar>
-                <Button variant='primary' onClick={()=> this.setState({addModalShow:true})}>
+                <Button className="GeryButtonCss" variant="grey" onClick={()=> this.setState({addModalShow:true})}>
                  Add Department
                 </Button>
                 <AddDepModal show={this.state.addModalShow} onHide={addModalClose}>

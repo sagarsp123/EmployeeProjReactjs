@@ -6,19 +6,26 @@ import Header from './Header';
 import {Table} from 'react-bootstrap';
 
 import {Button, ButtonToolbar} from 'react-bootstrap';
-
+import * as moment from 'moment';
 import AddEmpModal from './AddEmpModal';
 import DeleteEmpModal from './DeleteEmpModal';
-
+import ManagerNavigation from './ManagerNavgiation';
 import EditEmpModal from './EditEmpModal';
 
 class Employee extends Component {
     constructor(props){
         super(props);
-        this.state={emps:[],addModalShow:false,deleteModalShow:false}
+        this.state={emps:[],addModalShow:false,deleteModalShow:false,isLoading:true,userdata:[]}
     }
     componentDidMount(){
         this.refreshList();
+    }
+
+    componentWillMount(){
+        localStorage.getItem('currentUser') && this.setState({
+            userdata:JSON.parse(localStorage.getItem('currentUser')),
+            isLoading:false
+        })
     }
 
     refreshList(){        
@@ -52,10 +59,17 @@ class Employee extends Component {
     // }
 
     render() { 
+        console.log(this.props.location.state);
         const{emps,empid,empname,department,mailid,doj}=this.state;
                 let addModalClose =() => this.setState({addModalShow:false});
                 let editModalClose =() => this.setState({editModalShow:false});
                 let deleteModalClose =() => this.setState({deleteModalShow:false});
+                let comp = "";
+        if (this.state.userdata.userRole == 'Employee') {
+            comp = <Navigation></Navigation>
+          } else {
+            comp = <ManagerNavigation></ManagerNavigation>
+          }
         return ( 
             // <div className="mt-5 d-flex justify-content-left">
             //     <h3>This is Employee page.</h3>
@@ -64,12 +78,12 @@ class Employee extends Component {
             <div className="content-wrap">
             <div className="container">
             <Header></Header>
-                <Navigation></Navigation>
+            {comp}
                 <div>
                     <Table striped bordered hover size="sm">
                         <thead>
                             <tr>
-                                <th>EmployeeID</th>
+                                {/* <th>EmployeeID</th> */}
                                 <th>EmployeeName</th>
                                 <th>Department</th>
                                 <th>MailID</th>
@@ -80,14 +94,14 @@ class Employee extends Component {
                         <tbody>
                             {emps.map(emp=>
                                 <tr id={emp.employeeID} key={emp.employeeID}>
-                                <td>{emp.employeeID}</td>
+                                {/* <td>{emp.employeeID}</td> */}
                                 <td>{emp.employeeName}</td>
                                 <td>{emp.department}</td>
                                 <td>{emp.mailID}</td>
-                                <td>{emp.doj}</td>
+                                <td>{moment(emp.doj).format('DD/MM/YYYY')}</td>
                                 <td>
                                     <ButtonToolbar>
-                                        <Button className="m-2" variant="info" 
+                                        <Button className="m-2 GeryButtonCss" variant="grey" 
                                         onClick={()=> this.setState({editModalShow:true,
                                         empid:emp.employeeID,empname:emp.employeeName,
                                         department: emp.department,
@@ -128,7 +142,7 @@ class Employee extends Component {
                         </tbody>
                     </Table>
                 <ButtonToolbar>
-                    <Button variant='primary' onClick={()=> this.setState({addModalShow:true})}>
+                    <Button className="GeryButtonCss" variant="grey"  onClick={()=> this.setState({addModalShow:true})}>
                          Add Employee
                     </Button>
                     <AddEmpModal show={this.state.addModalShow} onHide={addModalClose}>
