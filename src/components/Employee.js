@@ -75,10 +75,12 @@ class Employee extends Component {
             //     <h3>This is Employee page.</h3>
             // </div>
             <div className="page-container">
+                <Header></Header>
+            {comp}
             <div className="content-wrap">
             <div className="container">
-            <Header></Header>
-            {comp}
+            {/* <Header></Header>
+            {comp} */}
                 <div>
                     <Table striped bordered hover size="sm">
                         <thead>

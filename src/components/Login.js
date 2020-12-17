@@ -32,7 +32,9 @@ class Login extends Component {
   }
 
   componentWillUpdate(nextProps,nextState){
+    let ApiUrl = "https://localhost:44366/api/"
     localStorage.setItem('currentUser',JSON.stringify(nextState.userdata));
+    localStorage.setItem('ApiURL',JSON.stringify(ApiUrl));
   }
 
   handleChange(event) {
@@ -129,8 +131,12 @@ class Login extends Component {
 
     render() { 
       const{EmailID,Password,Role}=this.state;
+      // const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+      // console.log(SERVER_URL);
         return ( 
+
           <div className="page-container">
+            <Header></Header>
           <div className="content-wrap">
           <div className="container">
           <Snackbar anchorOrigin={{vertical:'center',horizontal:'center'}}
@@ -146,7 +152,7 @@ class Login extends Component {
              ]}>
               
              </Snackbar>
-             <Header></Header>
+             {/* <Header></Header> */}
                 <Row className="Signin marginCss"> 
                 {/* <h2 className="m-3 d-flex justify-content-center">
          Employee Management Portal
@@ -156,7 +162,7 @@ class Login extends Component {
             src="assets/login.jpg"  rounded
             alt="Login"
           /></h3> 
-                  <Col sm={4}>
+                  <Col sm={4} className="marginCSSLogin">
         
                     <Form onSubmit={this.handleSubmit}>
                       <Form.Group as={Row} controlId="EmailID">

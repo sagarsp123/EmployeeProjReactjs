@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import OrgChart from '@balkangraph/orgchart.js';
 
-export default class extends Component {
+export default class nychart extends Component {
 
      constructor(props) {
        super(props);
@@ -15,7 +15,9 @@ export default class extends Component {
    componentDidMount() {
        this.chart = new OrgChart(this.divRef.current , {
            nodes: this.props.nodes,
-
+           template: "isla", 
+           enableSearch: false,
+            mouseScrool: OrgChart.action.none, 
            nodeBinding: {
                field_0: "name",
                field_1: "title",

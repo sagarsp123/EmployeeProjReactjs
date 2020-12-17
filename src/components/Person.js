@@ -26,7 +26,7 @@ function handleChange(){
       <Menu>
         <MenuButton     className="button-primary"
     style={{ boxShadow: "2px 2px 2px hsla(0, 0%, 0%, 0.25)" }}
-       ><Avatar ></Avatar><span aria-hidden>▾</span>
+       ><Avatar style={{display:"inline-table"}} ></Avatar><span aria-hidden>▾</span>
        </MenuButton>
         <MenuList>
           <MenuLink href="/" onClick={handleChange}> <img

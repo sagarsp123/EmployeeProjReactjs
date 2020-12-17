@@ -41,7 +41,7 @@ class Header extends Component {
    
 //   </Navbar.Collapse>
 // </Navbar>
-<Navbar collapseOnSelect expand="lg" bg="light" >
+<Navbar collapseOnSelect expand="lg" className="main-footer" >
   {/* <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand> */}
   <Image src="assets/LTI.png" className="about-logo" rounded />
    <h2 className="m-3 d-flex justify-content-center">

@@ -185,19 +185,23 @@ class LeaveRequest extends Component<userdata> {
     render() { 
       // console.log(this.props.location.state);
       const{leaves}=this.state;
-      let comp = null;
-      if(this.state.userRole.localeCompare('Employee')) {
+      let comp:any;
+      if(this.state.userRole =='Employee') {
           comp = <Navigation></Navigation>
         } else {
           comp = <ManagerNavigation></ManagerNavigation>
         }
         return ( 
+          <div className="page-container">
+          <Header></Header>
+       {comp}
+       <div className="content-wrap">
           <div className="container">
-            <Header></Header>
+            {/* <Header></Header> */}
             {/* <Snackbar>
               
              </Snackbar> */}
-            {comp}
+            {/* {comp} */}
                 <Row className="leaveReq"> 
                 <h2 className="m-3 d-flex justify-content-center">
          Leave Request
@@ -266,7 +270,7 @@ class LeaveRequest extends Component<userdata> {
              <FileUpload></FileUpload>
           </Form.Group>
         
-                      <Form.Group>
+                      <Form.Group className="marginLeftForLeaveRequestButtons">
                         <Button variant="grey" type="submit" className="btnform GeryButtonCss">
                         Submit
                         </Button>
@@ -306,7 +310,8 @@ class LeaveRequest extends Component<userdata> {
               
                 </Row>
                
-               
+               </div>
+               </div>
                 <Footer></Footer>
                 
                 

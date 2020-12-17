@@ -89,8 +89,8 @@ refreshList(){
     render() { 
       const {profiles} = this.state;
       console.log(profiles);
-      let comp = null;
-      if(this.state.userRole == 'Employee') {
+      let comp:any;
+      if(this.state.userRole.localeCompare('Employee')) {
           comp = <Navigation></Navigation>
         } else {
           comp = <ManagerNavigation></ManagerNavigation>

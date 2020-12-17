@@ -3,6 +3,7 @@ import {Col, Container,  Image} from 'react-bootstrap';
 import './Aboutus.css';
 import Navigation from './Navigation';
 import Header from './Header';
+import Footer from './Footer';
 import ManagerNavigation from './ManagerNavgiation';
 class Aboutus extends Component {
     constructor(props){
@@ -31,13 +32,15 @@ class Aboutus extends Component {
             comp = <ManagerNavigation></ManagerNavigation>
           }
         return ( 
-            
+            <div>
+                 <Header></Header>
+                 {comp} 
             <div className="container">
             {/* <h3 className="m-3 d-flex justify-content-center">
     Employee Management Portal
     </h3> */}
-            <Header></Header>
-           {comp}
+            {/* <Header></Header> */}
+           {/* {comp} */}
             
             {/* <div className="mt-5 d-flex justify-content-left"></div> */}
                 {/* <h2>About Us </h2>
@@ -61,6 +64,8 @@ class Aboutus extends Component {
                         <p>For more enquiries please contact us at empman@gmail.com</p>
                     {/* </Col> */}
                     </container>
+                </div>
+                <Footer></Footer>
                 </div>
           
          );

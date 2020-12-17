@@ -143,6 +143,9 @@ class Signup extends Component {
     render() { 
         return (        
    <body >
+     <div>
+     <Header></Header>
+ 
     <div className="container">
           <Snackbar anchorOrigin={{vertical:'center',horizontal:'center'}}
              open={this.state.snackbaropen}
@@ -157,7 +160,7 @@ class Signup extends Component {
              ]}>
               
              </Snackbar>
-                 <Header></Header>
+                 {/* <Header></Header> */}
                 <Row className="Signin"> 
                 {/* <h2 className="m-3 d-flex justify-content-center">
          Employee Management Portal
@@ -171,11 +174,11 @@ class Signup extends Component {
                       <Form.Group as={Row} controlId="emailAddress">
                         <Form.Label className ="fontSizesm" column sm="3">Email<sup className="RequireFiledCss">*</sup></Form.Label>
                         <Col sm="9">
-                        <Form.Control className="inlineFlexSignup" type="text" name="emailAddress" required placeholder="Enter Email" 
+                        <input type="text" id="emailAddress" className="form-control inlineFlexSignup" type="text" name="emailAddress" required placeholder="Enter Email" 
                            value={this.state.emailAddress}
                            onChange={this.handleChange}
                            onBlur={this.handleBlur}
-                           autoComplete="off"  ></Form.Control> 
+                           autoComplete="off"  ></input> 
                             {this.state.emailAddressError && (
               <div className="validationTextSignup">{this.state.emailAddressError}</div>
             )}             
@@ -184,11 +187,11 @@ class Signup extends Component {
                       <Form.Group as={Row} controlId="password">
                         <Form.Label className ="fontSizesm" column sm="3">Password<sup className="RequireFiledCss">*</sup></Form.Label>
                         <Col sm="9">
-                        <Form.Control className="inlineFlexSignup" type="password" name="password" required placeholder="Enter Password" 
+                        <input type="text" id="password" className="form-control inlineFlexSignup" type="password" name="password" required placeholder="Enter Password" 
                          value={this.state.password}
                             onChange={this.handleChange}
                             onBlur={this.handleBlur}
-                            autoComplete="off"></Form.Control>
+                            autoComplete="off"></input>
               {this.state.passwordError && (
               <div className="validationTextSignup">{this.state.passwordError}</div>
             )}
@@ -219,16 +222,18 @@ class Signup extends Component {
                         </Col> 
                       </Form.Group>
                       <Form.Group>
-                        <Button className="ButtonCssLogin" variant="grey" type="submit">
+                        <Button id ="signupButton" className="ButtonCssLogin" variant="grey" type="submit">
                         Sign Up
                          </Button>
-                        <Button className="ButtonCssclose" variant="danger" onClick={event =>  window.location.href='/'} style={{marginLeft: 30}}>Close</Button>
+                        <Button id ="closeButton" className="ButtonCssclose" variant="danger" onClick={event =>  window.location.href='/'} style={{marginLeft: 30}}>Close</Button>
                       </Form.Group>
                     </Form>
                   </Col>
                 </Row>
                 
-                <Footer></Footer>
+                {/* <Footer></Footer> */}
+      </div>
+      <Footer></Footer>
       </div>
       </body>
            

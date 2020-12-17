@@ -19,12 +19,13 @@ class Home extends Component {
     constructor(props){
         super(props);
 
-        this.state = {isLoading:true,userdata:[]};
+        this.state = {isLoading:true,userdata:[],ApiUrlData:""};
     }
 
     componentWillMount(){
         localStorage.getItem('currentUser') && this.setState({
             userdata:JSON.parse(localStorage.getItem('currentUser')),
+            ApiUrlData:JSON.parse(localStorage.getItem('ApiUrl')),
             isLoading:false
         })
     }
@@ -33,6 +34,7 @@ class Home extends Component {
     render() { 
         console.log(this.props.location.state);
         console.log("Userdata",this.state.userdata);
+        console.log("ApiUrl",this.state.ApiUrlData);
         let comp = "";
         if (this.state.userdata.userRole == 'Employee') {
             comp = <Navigation></Navigation>
@@ -41,16 +43,19 @@ class Home extends Component {
           }
       
         return ( 
+            <div>
             <div className="page-container">
+            <Header></Header>
+            {comp}
             <div className="content-wrap">
             <div className="container">
    
                 {/* <h3 className="m-3 d-flex justify-content-center">
         Employee Management Portal
         </h3> */}
-                <Header></Header>
+                {/* <Header></Header> */}
                 {/* <Navigation empID={this.props.location.state.userID}></Navigation> */}
-               {comp}
+               {/* {comp} */}
                 
             <div className="mt-5 d-flex justify-content-left">
               
@@ -80,6 +85,7 @@ class Home extends Component {
           </div>
         </div>
           <Footer></Footer>
+            </div>
             </div>
            
          );

@@ -87,10 +87,12 @@ class Department extends Component {
             //     <h3>This is Department page.</h3>
             // </div>
             <div className="page-container">
+                <Header></Header>
+                {comp}
             <div className="content-wrap">
             <div className="container">
-            <Header></Header>
-            {comp}
+            {/* <Header></Header>
+            {comp} */}
             <div>
             {/* <Table className="mt-4" striped bordered hover size="sm"> */}
             <Table striped bordered hover size="sm">

@@ -7,16 +7,20 @@ import {BrowserRouter, Route,Switch} from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Signup from './components/Signup';
 import Login from './components/Login';
+import Footer from './components/Footer';
 
 function App() {
   return (
 
    
-    <div className="container">
+    <div>
+     
+
         {/* <h3 className="m-3 d-flex justify-content-center">
         Employee Management Portal
         </h3> */}
         {/* <Navigation></Navigation> */}
+     
        <SwitchPath></SwitchPath>
     </div>
 

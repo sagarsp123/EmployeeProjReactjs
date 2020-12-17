@@ -5,7 +5,7 @@ import Footer from './Footer';
 import Header from './Header';
 import ManagerNavigation from './ManagerNavgiation';
 
-            export default class App extends Component {
+            class mycharttest extends Component {
               constructor(props) {
                 super(props);
                 this.state = {isLoading:true,userdata:[]};
@@ -34,6 +34,11 @@ import ManagerNavigation from './ManagerNavgiation';
                           <h2 className="m-3 d-flex justify-content-center">
         Organization Structure
         </h2>
+    
+
+     <div className="OrgChange">
+
+
                            <OrgChart nodes={
                                      [{id: 1, name: "Arjun Reddy" , title: "Director","Department": "HR" },
                                      {id: 2, pid: 1, name: "Bhuvan Kumar" , title: "Senior Manager","Department": "IT" },
@@ -44,9 +49,11 @@ import ManagerNavigation from './ManagerNavgiation';
                                      {id: 7, pid: 5, name: "Jyoti Pathare" , title: "Developer","Department": "IT" }]} />
                   </div>
                   </div>
+                  </div>
                   <Footer></Footer>
                   </div>
                 );
               }
             }
+            export default mycharttest;
         

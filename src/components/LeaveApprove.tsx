@@ -50,7 +50,8 @@ class LeaveApprove  extends Component<userdata> {
             lStartDate: "",
             lEndDate:"",
             leaveDays:"",
-            leaveStatus:""
+            leaveStatus:"",
+            employeeName:""
     
           }
         
@@ -110,7 +111,7 @@ componentDidUpdate(){
 }
 
     render() { 
-        let comp = null;
+        let comp:any;
       if(this.state.userRole == 'Employee') {
           comp = <Navigation></Navigation>
         } else {
@@ -118,13 +119,16 @@ componentDidUpdate(){
         }
         return ( 
             <div className="page-container">
+               <Header></Header>
+            {comp}
             <div className="content-wrap">
             <div className="container">
-            <Header></Header>
-            {comp}
+            {/* <Header></Header>
+            {comp} */}
             <Table striped bordered hover size="sm">
                         <thead>
                     <tr>
+                      <th>Employee Name</th>
                         <th>Leave Type</th>
                         <th>Start Date</th>
                         <th>End Date</th>
@@ -136,6 +140,7 @@ componentDidUpdate(){
                 <tbody>
                     {this.state.leaves.map(leave=>
                         <tr id={leave.leaveID} key={leave.leaveID}>
+                        <td>{leave.employeeName}</td>
                         <td>{leave.leaveType}</td>
                         <td>{moment(leave.lStartDate).format('DD/MM/YYYY')}</td>
                         <td>{moment(leave.lEndDate).format('DD/MM/YYYY')}</td>
@@ -152,7 +157,7 @@ componentDidUpdate(){
                                     onClick={()=> this.deleteDep(dep.DepartmentID)} variant="danger"
                                     > Delete
                                     </Button>                                     */}
-                                    <Button className="m-2" variant="danger"
+                                    <Button className="m-2 GeryButtonCss" variant="grey"
                                      onClick={()=> this.updateLeaveStatus(leave.leaveID,"Rejected")}>
                                     Reject
                                     </Button>
