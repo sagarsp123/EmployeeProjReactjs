@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
-
+import configData from "../config.json";
 //Importing Snackbar notification
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -57,7 +57,7 @@ class AddEmpModal extends Component {
 
     //Collecting all department details using api which can be used as value for Department drop-down list
     componentDidMount(){
-        fetch('https://localhost:44366/api/departments')
+        fetch(configData.URL+'/departments')
         .then(response=> response.json())
         .then(data=> {
             this.setState({
@@ -76,7 +76,7 @@ class AddEmpModal extends Component {
           // alert(event.target.DepartmentName.value);
     
           //consuming post Api method
-          fetch('https://localhost:44366/api/employees',{
+          fetch(configData.URL+'/employees',{
             method:'POST',
             headers:{
               'Accept':'application/json',

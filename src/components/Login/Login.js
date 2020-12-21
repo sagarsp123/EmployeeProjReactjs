@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
-
+import configData from "../config.json";
 //Importing Snackbar notification
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../Header/Headerlogin';
+import Footer from '../Footer/Footer';
 
 const emailValidator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordValidator = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
@@ -32,9 +32,7 @@ class Login extends Component {
   }
 
   componentWillUpdate(nextProps,nextState){
-    let ApiUrl = "https://localhost:44366/api/"
     localStorage.setItem('currentUser',JSON.stringify(nextState.userdata));
-    localStorage.setItem('ApiURL',JSON.stringify(ApiUrl));
   }
 
   handleChange(event) {
@@ -93,7 +91,7 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    fetch('https://localhost:44366/api/userdetails/'+event.target.EmailID.value)
+    fetch(configData.URL+'/userdetails/'+event.target.EmailID.value)
     .then(response=> response.json())
     .then(data=> {
         this.setState({

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import OrgChart from './mychart';
-import Navigation from './Navigation';
-import Footer from './Footer';
-import Header from './Header';
-import ManagerNavigation from './ManagerNavgiation';
+import Navigation from '../Header/Navigation';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
+import ManagerNavigation from '../Header/ManagerNavgiation';
 
             class mycharttest extends Component {
               constructor(props) {

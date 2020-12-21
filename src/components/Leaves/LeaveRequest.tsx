@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import {Table, Button, Row, Col, Form,Image} from 'react-bootstrap';
 import FileUpload from './FileUpload';
-import Footer from './Footer';
-import Header from './Header';
-import Navigation from './Navigation';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
+import Navigation from '../Header/Navigation';
 import moment from 'moment';
-import ManagerNavigation from './ManagerNavgiation';
+import ManagerNavigation from '../Header/ManagerNavgiation';
 //Importing Snackbar notification
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
+import configData from "../config.json";
 
 interface userdata {
   emailID: string,
@@ -122,7 +123,7 @@ class LeaveRequest extends Component<userdata> {
     // alert(event.target.DepartmentName.value);
     // console.log("event", event.target.TLeaves.value);
    // consuming post Api method
-    fetch('https://localhost:44366/api/LeaveDetails',{
+    fetch(configData.URL+'/LeaveDetails',{
       method:'POST',
       headers:{
         'Accept':'application/json',
@@ -165,7 +166,7 @@ class LeaveRequest extends Component<userdata> {
   handleHistory =() =>{
     this.setState({isTable:"block"});
         //Consuming values from Api (GET method)
-        fetch('https://localhost:44366/api/LeaveDetails/'+this.state.EmployeeID)
+        fetch(configData.URL+'/LeaveDetails/'+this.state.EmployeeID)
         .then(response=> response.json())
         .then(data=> {
             this.setState({
@@ -283,7 +284,7 @@ class LeaveRequest extends Component<userdata> {
                      
             </Col>
           <Col>
-          <Table className="tableCss" style={{display: this.state.isTable}} bordered striped  hover size="lg">
+          <Table className="tableCss tabledataAlignCenter" style={{display: this.state.isTable}} bordered striped  hover size="lg">
                         <thead>
                     <tr>
                         <th>Leave Type</th>

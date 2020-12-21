@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import {Table, Row, Col, Form} from 'react-bootstrap';
-import Footer from './Footer';
-import Header from './Header';
-import "./Aboutus.css";
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
+import "../Aboutus.css";
 import moment from 'moment';
-import Navigation from './Navigation';
-import ManagerNavigation from './ManagerNavgiation';
+import Navigation from '../Header/Navigation';
+import ManagerNavigation from '../Header/ManagerNavgiation';
+import configData from "../config.json";
+
 interface userdata {
   emailID: string,
      employeeID: number,
@@ -68,7 +70,7 @@ refreshList(){
 
   
   //Consuming values from Api (GET method)
-  fetch('https://localhost:44366/api/employees/'+this.state.EmployeeID)
+  fetch(configData.URL+'/employees/'+this.state.EmployeeID)
   .then(response=> response.json())
   .then(data=> {
       this.setState({
@@ -90,17 +92,19 @@ refreshList(){
       const {profiles} = this.state;
       console.log(profiles);
       let comp:any;
-      if(this.state.userRole.localeCompare('Employee')) {
+      if(this.state.userRole =='Employee') {
           comp = <Navigation></Navigation>
         } else {
           comp = <ManagerNavigation></ManagerNavigation>
         }
         return ( 
              <div className="page-container">
-            <div className="content-wrap">
-             <div className="container">
              <Header></Header>
              {comp}
+            <div className="content-wrap">
+             <div className="container">
+             {/* <Header></Header>
+             {comp} */}
              <Row className="leaveReq"> 
                 <h3 className=" d-flex justify-content-center">My Profile</h3>
                 <Col sm={6} className="marginCssleft">
@@ -157,59 +161,6 @@ refreshList(){
     </Col>
   </Form.Group>
 
-
-  
-
-  {/* <Form.Group as={Row} controlId="formPlaintextPassword">
-    <Form.Label column sm="1">
-      Password
-    </Form.Label>
-    <Col sm="5">
-      <Form.Control type="text" placeholder="Readonly input here..." readOnly />
-    </Col>style={{display: this.state.isTable}} 
-  </Form.Group> 
-</Form> */}
-
-
-{/* <Table className="tableCss" bordered striped  hover size="lg">
-                        <thead>
-                    <tr>
-                        <th>Employee Name</th>
-                        <th>Designation</th>
-                        <th>Email </th>
-                        <th>Department</th>
-                        <th>Date of Joining</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.profiles.map(profile=>
-                        <tr id={profile.employeeID} key={profile.employeeID}>
-                          
-                        <td>{profile.employeeName}</td>
-                        <td>Software Engineer</td>
-                        <td>{profile.mailID}</td>
-                        <td>{profile.department}</td>
-                    <td>{profile.doj}</td>
-                        </tr>
-                        )}
-                </tbody>
-            </Table> */}
-
-            {/* <Form >
-  <Form.Group  as={Row} controlId="formPlaintextName">
-    <Form.Label column sm="2">
-    
-      Name
-    </Form.Label>
-    <Col sm="5">
-    {/* <Form.Control plaintext readOnly defaultValue="{profile.employeeName}"/> 
-        {this.state.profiles.map(profile=>
-                        <tr id={profile.employeeID} key={profile.employeeID}>
-                          
-                        </tr>
-                        )}
-    </Col>
-  </Form.Group> */}
   </Form>
   </Col>
   </Row>

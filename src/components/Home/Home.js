@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {Modal, Button, Row, Col, Form, Container,  Image} from 'react-bootstrap';
 import {BrowserRouter, Route,Switch,withRouter,Router} from 'react-router-dom';
-import SwitchPath from './SwitchPath';
-import Navigation from './Navigation';
-import Footer from './Footer';
-import Header from './Header';
-import Signup from './Signup';
-import ManagerNavigation from './ManagerNavgiation';
-import './Aboutus.css'
+import SwitchPath from '../SwitchPath';
+import Navigation from '../Header/Navigation';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
+import Signup from '../Login/Signup';
+import ManagerNavigation from '../Header/ManagerNavgiation';
+import '../Aboutus.css'
 import { CloseOutlined } from '@material-ui/icons';
 class Home extends Component {
     // handleClick = () => {

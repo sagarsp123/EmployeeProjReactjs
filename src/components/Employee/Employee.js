@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Navigation from './Navigation';
-import Footer from './Footer';
-import Header from './Header';
+import Navigation from '../Header/Navigation';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
 //Creating bootstrap Grid
 import {Table} from 'react-bootstrap';
 
@@ -9,8 +9,9 @@ import {Button, ButtonToolbar} from 'react-bootstrap';
 import * as moment from 'moment';
 import AddEmpModal from './AddEmpModal';
 import DeleteEmpModal from './DeleteEmpModal';
-import ManagerNavigation from './ManagerNavgiation';
+import ManagerNavigation from '../Header/ManagerNavgiation';
 import EditEmpModal from './EditEmpModal';
+import configData from "../config.json";
 
 class Employee extends Component {
     constructor(props){
@@ -30,7 +31,7 @@ class Employee extends Component {
 
     refreshList(){        
         //Consuming values from Api (GET method)
-        fetch('https://localhost:44366/api/employees')
+        fetch(configData.URL+'/employees')
         .then(response=> response.json())
         .then(data=> {
             this.setState({
@@ -82,11 +83,11 @@ class Employee extends Component {
             {/* <Header></Header>
             {comp} */}
                 <div>
-                    <Table striped bordered hover size="sm">
+                    <Table className="tabledataAlignCenter"striped bordered hover size="sm">
                         <thead>
                             <tr>
                                 {/* <th>EmployeeID</th> */}
-                                <th>EmployeeName</th>
+                                <th >EmployeeName</th>
                                 <th>Department</th>
                                 <th>MailID</th>
                                 <th>DOJ</th>
@@ -97,12 +98,12 @@ class Employee extends Component {
                             {emps.map(emp=>
                                 <tr id={emp.employeeID} key={emp.employeeID}>
                                 {/* <td>{emp.employeeID}</td> */}
-                                <td>{emp.employeeName}</td>
-                                <td>{emp.department}</td>
-                                <td>{emp.mailID}</td>
-                                <td>{moment(emp.doj).format('DD/MM/YYYY')}</td>
+                                <td style={{paddingTop:"21px"}}>{emp.employeeName}</td>
+                                <td style={{paddingTop:"21px"}}>{emp.department}</td>
+                                <td style={{paddingTop:"21px"}}>{emp.mailID}</td>
+                                <td style={{paddingTop:"21px"}}>{moment(emp.doj).format('DD/MM/YYYY')}</td>
                                 <td>
-                                    <ButtonToolbar>
+                                    <ButtonToolbar className="tableDataButtonPadding">
                                         <Button className="m-2 GeryButtonCss" variant="grey" 
                                         onClick={()=> this.setState({editModalShow:true,
                                         empid:emp.employeeID,empname:emp.employeeName,

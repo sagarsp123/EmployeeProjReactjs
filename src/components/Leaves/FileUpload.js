@@ -1,6 +1,6 @@
 import React,{Component} from 'react'; 
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
-
+import configData from "../config.json";
 class FileUpload extends Component {
     state = { 
   
@@ -40,7 +40,7 @@ class FileUpload extends Component {
         // Send formData object 
         // fetch.post("https://localhost:44366/api/file", formData); 
 
-        fetch('https://localhost:44366/api/file', {
+        fetch(configData.URL+'/file', {
           method: 'POST',
           body: formData
         })

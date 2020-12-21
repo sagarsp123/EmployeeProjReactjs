@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom';
 import {Navbar,Nav} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import {Col, Container,  Image} from 'react-bootstrap';
-import './Aboutus.css';
+import "../Aboutus.css";
 import Person from './Person';
 
 class Header extends Component {

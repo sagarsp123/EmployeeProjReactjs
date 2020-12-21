@@ -178,6 +178,15 @@
   min-height: 100vh;
 }
 
+.tabledataAlignCenter {
+  text-align: center;
+  padding-top: 2%;
+}
+
+.tableDataButtonPadding {
+  display: block;
+}
+
 .content-wrap {
   flex: 1;
 }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {Col, Container,  Image} from 'react-bootstrap';
 import './Aboutus.css';
-import Navigation from './Navigation';
-import Header from './Header';
-import Footer from './Footer';
-import ManagerNavigation from './ManagerNavgiation';
+import Navigation from './Header/Navigation';
+import Header from './Header/Header';
+import Footer from './Footer/Footer';
+import ManagerNavigation from './Header/ManagerNavgiation';
 class Aboutus extends Component {
     constructor(props){
         super(props);

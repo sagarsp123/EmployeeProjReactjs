@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
-
+import configData from "../config.json";
 //Importing Snackbar notification
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -23,7 +23,7 @@ export class AddDepModal extends Component {
       // alert(event.target.DepartmentName.value);
 
       //consuming post Api method
-      fetch('https://localhost:44366/api/departments',{
+      fetch(configData.URL+'/departments',{
         method:'POST',
         headers:{
           'Accept':'application/json',
@@ -31,7 +31,8 @@ export class AddDepModal extends Component {
         },
         body:JSON.stringify({
           departmentID:0,
-          departmentName: event.target.DepartmentName.value
+          departmentName: event.target.DepartmentName.value,
+          deptLocation:event.target.DepartmentLocation.value
         })
       })
       .then(res=> {res.json()
@@ -86,19 +87,25 @@ export class AddDepModal extends Component {
             <Modal.Body>
             
                 <Row>
-                  <Col sm={6}>
+                  <Col sm={7}>
                     <Form onSubmit={this.handleSubmit}>
                       <Form.Group as={Row} controlId="DepartmentName">
                         <Form.Label column sm="5">Department Name</Form.Label>
                         <Col sm="7">
-                        <Form.Control type="text" name="DepartmentName" required placeholder="DepartmentName"></Form.Control>
+                        <Form.Control type="text" name="DepartmentName" required placeholder="Department Name"></Form.Control>
+                        </Col>
+                      </Form.Group>
+                      <Form.Group as={Row} controlId="DepartmentLocation">
+                        <Form.Label column sm="5">Department Location</Form.Label>
+                        <Col sm="7">
+                        <Form.Control type="text" name="DepartmentLocation" required placeholder="Department Location"></Form.Control>
                         </Col>
                       </Form.Group>
                       <Form.Group>
                         <Button className="PoupButtonCss" variant="grey" type="submit">
                           Add Department
                         </Button>
-                      </Form.Group>
+                      </Form.Group>                     
                     </Form>
                   </Col>
                 </Row>

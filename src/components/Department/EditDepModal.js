@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
-
+import configData from "../config.json";
 //Importing Snackbar notification
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -21,7 +21,7 @@ class EditDepModal extends Component {
           // alert(event.target.DepartmentName.value);
           
           //consuming post Api method
-          fetch('https://localhost:44366/api/departments',{
+          fetch(configData.URL+'/departments',{
             method:'PUT',
             headers:{
               'Accept':'application/json',
@@ -29,7 +29,8 @@ class EditDepModal extends Component {
             },
             body:JSON.stringify({
               departmentID:event.target.DepartmentID.value,
-              departmentName: event.target.DepartmentName.value
+              departmentName: event.target.DepartmentName.value,
+              deptLocation:event.target.DepartmentLocation.value
             })
           })
           .then(res=> {res.json()
@@ -82,7 +83,7 @@ class EditDepModal extends Component {
             </Modal.Header>
             <Modal.Body>
                 <Row>
-                  <Col sm={6}>
+                  <Col sm={7}>
                     <Form onSubmit={this.handleSubmit}>
                     <Form.Group style={{display:"none"}} controlId="DepartmentID">
                         <Form.Label>DepartmentID</Form.Label>
@@ -92,6 +93,12 @@ class EditDepModal extends Component {
                         <Form.Label column sm="5">Department Name</Form.Label>
                         <Col sm="7">
                         <Form.Control type="text" name="DepartmentName" required defaultValue={this.props.depname} placeholder="DepartmentName"></Form.Control>
+                        </Col>
+                      </Form.Group>
+                      <Form.Group as={Row} controlId="DepartmentLocation">
+                        <Form.Label column sm="5">Department Location</Form.Label>
+                        <Col sm="7">
+                        <Form.Control type="text" name="DepartmentLocation" required defaultValue={this.props.deptLocation} placeholder="DepartmentName"></Form.Control>
                         </Col>
                       </Form.Group>
                       <Form.Group>

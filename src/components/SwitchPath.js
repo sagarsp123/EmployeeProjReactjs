@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import {BrowserRouter, Route,Switch} from 'react-router-dom';
-import Home from './Home';
-import Department from './Department';
-import Employee from './Employee';
-import Signup from './Signup';
+import Home from './Home/Home';
+import Department from './Department/Department';
+import Employee from './Employee/Employee';
+import Signup from './Login/Signup';
 import Aboutus from './Aboutus';
-import Login from './Login'
-import  Fileupload  from './FileUpload';
-import LeaveRequest from "./LeaveRequest";
-import EmpOrgStruc from "./EmpOrgStruc";
-import OrgChart from "./mycharttest"; 
-import LeaveDetails from './LeaveApprove'
-import MyProfile from './Myprofile';
+import Login from './Login/Login'
+import  Fileupload  from './Leaves/FileUpload';
+import LeaveRequest from "./Leaves/LeaveRequest";
+import OrgChart from "./Organization/mycharttest"; 
+import LeaveDetails from './Leaves/LeaveApprove'
+import MyProfile from './Home/Myprofile';
 
 
 class SwitchPath extends Component {

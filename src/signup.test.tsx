@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Signup from './components/Signup';
+import Signup from './components/Login/Signup';
 
 describe('Test case for testing Signup', () => {
    

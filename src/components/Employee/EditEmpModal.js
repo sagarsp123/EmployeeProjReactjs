@@ -4,7 +4,7 @@ import * as moment from 'moment';
 //Importing Snackbar notification
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
-
+import configData from "../config.json";
 const emailValidator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 class EditEmpModal extends Component {
@@ -59,7 +59,7 @@ class EditEmpModal extends Component {
 
     //Collecting all department details using api which can be used as value for Department drop-down list
     componentDidMount(){
-        fetch('https://localhost:44366/api/departments')
+        fetch(configData.URL+'/departments')
         .then(response=> response.json())
         .then(data=> {
             this.setState({
@@ -78,7 +78,7 @@ class EditEmpModal extends Component {
           // alert(event.target.DepartmentName.value);
     
           //consuming post Api method
-          fetch('https://localhost:44366/api/employees',{
+          fetch(configData.URL+'/employees',{
             method:'PUT',
             headers:{
               'Accept':'application/json',
@@ -182,7 +182,7 @@ class EditEmpModal extends Component {
                       <Form.Group as={Row} controlId="DOJ">
                         <Form.Label column sm="5">DOJ</Form.Label>
                         <Col sm="7">
-                        <Form.Control type="datetime" disabled name="DOJ" required defaultValue={moment(this.state.Doj).format('DD/MM/YYYY')} placeholder="DOJ"></Form.Control>
+                        <Form.Control type="datetime" disabled name="DOJ" required defaultValue={moment(this.props.doj).format('DD/MM/YYYY')} placeholder="DOJ"></Form.Control>
                         </Col>
                       </Form.Group>
                       <Form.Group>

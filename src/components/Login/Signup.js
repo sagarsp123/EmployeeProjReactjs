@@ -3,13 +3,14 @@ import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import {Redirect} from 'react-router-dom';
 import {BrowserRouter, Route,Switch,withRouter,Router} from 'react-router-dom';
 import hashHistory from 'react-router'
-import SwitchPath from './SwitchPath';
-import Home from './Home'
-import Header from './Header';
-import Footer from './Footer';
+import SwitchPath from '../SwitchPath';
+import Home from '../Home/Home'
+import Header from '../Header/Headerlogin';
+import Footer from '../Footer/Footer';
 //Importing Snackbar notification
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
+import configData from "../config.json";
 
 const emailValidator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordValidator = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
@@ -58,7 +59,7 @@ class Signup extends Component {
     event.preventDefault();
     
           //consuming post Api method
-          fetch('https://localhost:44366/api/userdetails',{
+          fetch(configData.URL+'/userdetails',{
             method:'POST',
             headers:{
               'Accept':'application/json',

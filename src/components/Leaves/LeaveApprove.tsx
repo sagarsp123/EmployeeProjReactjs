@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {Table, Button,ButtonToolbar, Row, Col, Form,Image} from 'react-bootstrap';
 import FileUpload from './FileUpload';
-import Footer from './Footer';
-import Header from './Header';
-import Navigation from './Navigation';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
+import Navigation from '../Header/Navigation';
 import moment from 'moment';
-import ManagerNavigation from './ManagerNavgiation';
-
+import ManagerNavigation from '../Header/ManagerNavgiation';
+import configData from "../config.json";
 interface userdata {
     emailID: string,
        employeeID: number,
@@ -76,7 +76,7 @@ class LeaveApprove  extends Component<userdata> {
 
   refreshList(){
     //Consuming values from Api (GET method)
-    fetch('https://localhost:44366/api/LeaveDetails')
+    fetch(configData.URL+'/LeaveDetails')
     .then(response=> response.json())
     .then(data=> {
         this.setState({
@@ -92,7 +92,7 @@ componentDidUpdate(){
   this.refreshList();
 }
  updateLeaveStatus(leaveid:string,leavestatus:string){
-    fetch('https://localhost:44366/api/LeaveDetails/'+leaveid +'/'+leavestatus,{
+    fetch(configData.URL+'/LeaveDetails/'+leaveid +'/'+leavestatus,{
             method:'PUT',
           })
           .then(res=> {

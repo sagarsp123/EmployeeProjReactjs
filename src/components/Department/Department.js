@@ -7,10 +7,11 @@ import {AddDepModal} from './AddDepModal';
 
 import EditDepModal from './EditDepModal';
 import DeleteDepModal from './DeleteDepModal';
-import Navigation from './Navigation';
-import Footer from './Footer';
-import Header from './Header';
-import ManagerNavigation from './ManagerNavgiation';
+import Navigation from '../Header/Navigation';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
+import ManagerNavigation from '../Header/ManagerNavgiation';
+import configData from "../config.json";
 class Department extends Component {
     constructor(props){
         super(props);
@@ -35,7 +36,7 @@ class Department extends Component {
         // })
         
         //Consuming values from Api (GET method)
-        fetch('https://localhost:44366/api/departments')
+        fetch(configData.URL+'/departments')
         .then(response=> response.json())
         .then(data=> {
             this.setState({
@@ -72,7 +73,7 @@ class Department extends Component {
     // }
 
     render() { 
-        const{deps,depid,depname}=this.state;
+        const{deps,depid,depname,deptLocation}=this.state;
         let addModalClose =() => this.setState({addModalShow:false});
         let editModalClose =() => this.setState({editModalShow:false});
         let deleteModalClose =() => this.setState({deleteModalShow:false});
@@ -95,11 +96,13 @@ class Department extends Component {
             {comp} */}
             <div>
             {/* <Table className="mt-4" striped bordered hover size="sm"> */}
-            <Table striped bordered hover size="sm">
+            <Table className="tabledataAlignCenter" striped bordered hover size="sm">
                 <thead>
                     <tr>
                         {/* <th>DepartmentID</th> */}
-                        <th>DepartmentName</th>
+                        <th>Department Name</th>
+                        <th>No. Of Employees</th>
+                        <th>Department Location</th>
                         <th>Options</th>
                     </tr>
                 </thead>
@@ -107,11 +110,13 @@ class Department extends Component {
                     {deps.map(dep=>
                         <tr id={dep.departmentID} key={dep.departmentID}>
                         {/* <td>{dep.departmentID}</td> */}
-                        <td>{dep.departmentName}</td>
+                        <td style={{paddingTop:"21px"}}>{dep.departmentName}</td>
+                        <td style={{paddingTop:"21px"}}>{dep.totalEmployees}</td>
+                        <td style={{paddingTop:"21px"}}>{dep.deptLocation}</td>
                         <td>
-                            <ButtonToolbar>
+                            <ButtonToolbar className="tableDataButtonPadding">
                                 <Button className="m-2 GeryButtonCss" variant="grey" 
-                                onClick={()=> this.setState({editModalShow:true,depid:dep.departmentID,depname:dep.departmentName})}>
+                                onClick={()=> this.setState({editModalShow:true,depid:dep.departmentID,depname:dep.departmentName,deptLocation:dep.deptLocation})}>
                                     Edit
                                     </Button>
                                     {/* <Button
@@ -130,6 +135,7 @@ class Department extends Component {
                                      onHide = {editModalClose}
                                      depid= {depid}
                                      depname = {depname}
+                                     deptLocation = {deptLocation}
                                     ></EditDepModal>
                                     
                                     <DeleteDepModal 
