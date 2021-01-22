@@ -206,13 +206,12 @@ class LeaveRequest extends Component<userdata> {
     };
 
     render() {
-      console.log("Secure",this.state.secureToken);
-      if (this.state.secureToken != "null") {
+      if (this.state.secureToken != null) {
       
       // console.log(this.props.location.state);
       const{leaves}=this.state;
       let comp:any;
-      if(this.state.userRole.localeCompare('Employee')) {
+      if(this.state.userRole === 'Employee') {
           comp = <Navigation></Navigation>
         } else {
           comp = <ManagerNavigation></ManagerNavigation>

@@ -101,7 +101,7 @@ refreshList(){
  
 }
     render() { 
-      if (this.state.secureToken) {
+      if (this.state.secureToken == null) {
         return(
           <div className="page-container">
           <Headerlogin></Headerlogin>
@@ -122,7 +122,7 @@ refreshList(){
       const {profiles} = this.state;
       console.log(profiles);
       let comp:any;
-      if(this.state.userRole =='Employee') {
+      if(this.state.userRole ==='Employee') {
           comp = <Navigation></Navigation>
         } else {
           comp = <ManagerNavigation></ManagerNavigation>

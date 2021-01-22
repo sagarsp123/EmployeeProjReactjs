@@ -128,9 +128,9 @@ componentDidUpdate(){
 }
 
     render() { 
-      if (this.state.secureToken != "null") {
+      if (this.state.secureToken != null) {
         let comp:any;
-      if(this.state.userRole == 'Employee') {
+      if(this.state.userRole === 'Employee') {
           comp = <Navigation></Navigation>
         } else {
           comp = <ManagerNavigation></ManagerNavigation>
