@@ -9,9 +9,16 @@ class EditDepModal extends Component {
     constructor(props){
         super(props);
 
-        this.state = {snackbaropen:false,snackbarmsg:''};
+        this.state = {snackbaropen:false,snackbarmsg:'',isLoading:true,userdata:[]};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    componentWillMount(){
+      localStorage.getItem('currentUser') && this.setState({
+          userdata:JSON.parse(localStorage.getItem('currentUser')),
+          isLoading:false
+      })
+  }
+
     snackbarClose =(event) =>{
         this.setState({snackbaropen:false});
         };
@@ -25,7 +32,8 @@ class EditDepModal extends Component {
             method:'PUT',
             headers:{
               'Accept':'application/json',
-              'Content-Type':'application/json'
+              'Content-Type': 'application/json; charset=utf-8;',
+              'Authorization':'bearer '+this.state.userdata.secureToken
             },
             body:JSON.stringify({
               departmentID:event.target.DepartmentID.value,
@@ -76,14 +84,14 @@ class EditDepModal extends Component {
             aria-labelledby="contained-modal-title-vcenter"
             centered
           >
-            <Modal.Header closeButton>
-              <Modal.Title id="contained-modal-title-vcenter">
+            <Modal.Header style={{backgroundColor:'lightgrey'}} closeButton>
+              <Modal.Title id="contained-modal-title-vcenter" style={{marginLeft:'40%'}}>
                 Edit Department
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body style={{marginLeft:'19%'}}>
                 <Row>
-                  <Col sm={7}>
+                  <Col sm={9}>
                     <Form onSubmit={this.handleSubmit}>
                     <Form.Group style={{display:"none"}} controlId="DepartmentID">
                         <Form.Label>DepartmentID</Form.Label>
@@ -101,19 +109,22 @@ class EditDepModal extends Component {
                         <Form.Control type="text" name="DepartmentLocation" required defaultValue={this.props.deptLocation} placeholder="DepartmentName"></Form.Control>
                         </Col>
                       </Form.Group>
-                      <Form.Group>
-                        <Button className="PoupButtonCss" variant="grey" type="submit">
+                      <Form.Group as={Row} style={{marginLeft:'24%',marginRight:'-14%'}}>
+                        <Button column sm="5" className="PoupButtonCss" variant="grey" type="submit">
                           Update Department
                         </Button>
+                        <Col sm="7">
+                        <Button variant="danger" className="PopupCloseButtonCss" onClick={this.props.onHide}>Close</Button>
+                          </Col>
                       </Form.Group>
                     </Form>
                   </Col>
                 </Row>
            
             </Modal.Body>
-            <Modal.Footer>
+            {/* <Modal.Footer>
               <Button variant="danger" onClick={this.props.onHide}>Close</Button>
-            </Modal.Footer>
+            </Modal.Footer> */}
           </Modal>
            </div>
          );

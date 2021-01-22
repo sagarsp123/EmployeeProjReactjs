@@ -26,6 +26,8 @@ class Signup extends Component {
     emailAddressError: "",
     passwordError: "",
     passwordConfirmationError: "",
+    isLoading:true,
+    userdata:[]
   };
         this.handleChange = this.handleChange.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
@@ -36,6 +38,13 @@ class Signup extends Component {
           this
         );
         this.validateField = this.validateField.bind(this);
+  }
+
+  componentWillMount(){
+    localStorage.getItem('currentUser') && this.setState({
+        userdata:JSON.parse(localStorage.getItem('currentUser')),
+        isLoading:false
+    })
   }
 
   handleChange(event) {
@@ -63,7 +72,8 @@ class Signup extends Component {
             method:'POST',
             headers:{
               'Accept':'application/json',
-              'Content-Type':'application/json'
+              'Content-Type':'application/json',
+              'Authorization':'bearer '+this.state.userdata.secureToken
             },
             body:JSON.stringify({
                 UserID:0,

@@ -7,9 +7,17 @@ class FileUpload extends Component {
         // Initially, no file is selected 
         selectedFile: null,
         selectedFileName: null,
-        isButton:"none"
+        isButton:"none",
+        isLoading:true,
+        userdata:[]
       }; 
-       
+      
+      componentWillMount(){
+        localStorage.getItem('currentUser') && this.setState({
+            userdata:JSON.parse(localStorage.getItem('currentUser')),
+            isLoading:false
+        })
+    }
       // On file select (from the pop up) 
       onFileChange = event => { 
         // Update the state 
@@ -42,6 +50,7 @@ class FileUpload extends Component {
 
         fetch(configData.URL+'/file', {
           method: 'POST',
+          headers: new Headers({'Authorization':'bearer '+this.state.userdata.secureToken}),
           body: formData
         })
         .then(response => {

@@ -15,13 +15,15 @@ import {
 import Avatar from '@material-ui/core/Avatar';
 
 
-function handleChange(){
-  localStorage.clear();
-};
+
+
 
 
  function Person() {
 
+  function handleChange(){
+    localStorage.clear();
+  };
     return (
       <Menu>
       <MenuButton     className="button-primary"
@@ -35,10 +37,10 @@ function handleChange(){
          <img  style={{display:"inline-table"}}
           src="assets/me.jpg" 
           alt="About Me" /> About Me</MenuLink>
-          <MenuLink href="/"> 
+          <MenuLink href="/" onClickCapture={handleChange}> 
         <img  style={{display:"inline-table"}}
           src="assets/logout.png" 
-          alt="Logout"
+          alt="Logout" 
         /> Logout</MenuLink>
       </MenuList>
       

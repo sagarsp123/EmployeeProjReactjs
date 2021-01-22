@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {Col, Container,  Image} from 'react-bootstrap';
 import './Aboutus.css';
 import Navigation from './Header/Navigation';
-import Header from './Header/Header';
+import Header from './Header/Header'
+import Headerlogin from './Header/Headerlogin';
 import Footer from './Footer/Footer';
 import ManagerNavigation from './Header/ManagerNavgiation';
 class Aboutus extends Component {
@@ -20,17 +21,42 @@ class Aboutus extends Component {
     }
     
     render() { 
-        const styleObj = {
-           
+        const styleObj1 = {
+            marginTop:"5%",
             textAlign: "center",
          
         }
-        let comp = "";
-        if (this.state.userdata.userRole == 'Employee') {
-            comp = <Navigation></Navigation>
-          } else {
-            comp = <ManagerNavigation></ManagerNavigation>
+        const styleObj = {
+            textAlign: "center",
+         
+        }
+       
+          if (this.state.userdata.secureToken==null ) {
+          return(
+            <div className="page-container">
+            <Headerlogin></Headerlogin>
+          <div className="content-wrap">
+          <div className="container">
+            
+              <h2 style={styleObj1}>
+                  Please login in the Employee Portal
+              </h2>
+              <p style={styleObj}><a href="/">Click here</a></p>
+              </div>
+              </div>
+              <Footer></Footer>
+              </div>
+          )
+              
           }
+          else{
+              
+            let comp = "";
+            if (this.state.userdata.userRole == 'Employee') {
+                comp = <Navigation></Navigation>
+              } else {
+                comp = <ManagerNavigation></ManagerNavigation>
+              }
         return ( 
             <div>
                  <Header></Header>
@@ -69,6 +95,7 @@ class Aboutus extends Component {
                 </div>
           
          );
+        }
     }
 }
  

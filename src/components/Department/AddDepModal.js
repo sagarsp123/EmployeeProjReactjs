@@ -10,9 +10,15 @@ export class AddDepModal extends Component {
     constructor(props){
         super(props);
 
-        this.state = {snackbaropen:false,snackbarmsg:''};
+        this.state = {snackbaropen:false,snackbarmsg:'',isLoading:true,userdata:[]};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    componentWillMount(){
+      localStorage.getItem('currentUser') && this.setState({
+          userdata:JSON.parse(localStorage.getItem('currentUser')),
+          isLoading:false
+      })
+  }
 
     snackbarClose =(event) =>{
     this.setState({snackbaropen:false});
@@ -27,7 +33,8 @@ export class AddDepModal extends Component {
         method:'POST',
         headers:{
           'Accept':'application/json',
-          'Content-Type':'application/json'
+          'Content-Type':'application/json',
+          'Authorization':'bearer '+this.state.userdata.secureToken
         },
         body:JSON.stringify({
           departmentID:0,
@@ -79,15 +86,15 @@ export class AddDepModal extends Component {
             aria-labelledby="contained-modal-title-vcenter"
             centered
           >
-            <Modal.Header closeButton>
-              <Modal.Title id="contained-modal-title-vcenter">
+            <Modal.Header style={{backgroundColor:'lightgrey'}} closeButton>
+              <Modal.Title id="contained-modal-title-vcenter"  style={{marginLeft:'40%'}}>
                 Add Department
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body style={{marginLeft:'19%'}}>
             
                 <Row>
-                  <Col sm={7}>
+                  <Col sm={9}>
                     <Form onSubmit={this.handleSubmit}>
                       <Form.Group as={Row} controlId="DepartmentName">
                         <Form.Label column sm="5">Department Name</Form.Label>
@@ -101,19 +108,22 @@ export class AddDepModal extends Component {
                         <Form.Control type="text" name="DepartmentLocation" required placeholder="Department Location"></Form.Control>
                         </Col>
                       </Form.Group>
-                      <Form.Group>
-                        <Button className="PoupButtonCss" variant="grey" type="submit">
+                      <Form.Group  as={Row} style={{marginLeft:'29%',marginRight:'-15%'}}>
+                        <Button column sm="5" className="PoupButtonCss" variant="grey" type="submit">
                           Add Department
                         </Button>
+                        <Col sm="7">
+                        <Button variant="danger" className="PopupCloseButtonCss" onClick={this.props.onHide}>Close</Button>
+                          </Col>
                       </Form.Group>                     
                     </Form>
                   </Col>
                 </Row>
            
             </Modal.Body>
-            <Modal.Footer>
+            {/* <Modal.Footer>
               <Button variant="danger" onClick={this.props.onHide}>Close</Button>
-            </Modal.Footer>
+            </Modal.Footer> */}
           </Modal>
            </div>
          );

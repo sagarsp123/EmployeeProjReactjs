@@ -3,6 +3,7 @@ import OrgChart from './mychart';
 import Navigation from '../Header/Navigation';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
+import Headerlogin from '../Header/Headerlogin';
 import ManagerNavigation from '../Header/ManagerNavgiation';
 
             class mycharttest extends Component {
@@ -19,6 +20,34 @@ import ManagerNavigation from '../Header/ManagerNavgiation';
             }
 
               render() {
+                const styleObj1 = {
+                  marginTop:"5%",
+                  textAlign: "center",
+               
+              }
+              const styleObj = {
+                  textAlign: "center",
+               
+              }
+             
+                if (this.state.userdata.secureToken==null ) {
+                return(
+                  <div className="page-container">
+                  <Headerlogin></Headerlogin>
+                <div className="content-wrap">
+                <div className="container">
+                  
+                    <h2 style={styleObj1}>
+                        Please login in the Employee Portal
+                    </h2>
+                    <p style={styleObj}><a href="/">Click here</a></p>
+                    </div>
+                    </div>
+                    <Footer></Footer>
+                    </div>
+                )
+              }
+              else{
                 let comp = "";
                 if (this.state.userdata.userRole == 'Employee') {
                     comp = <Navigation></Navigation>
@@ -41,11 +70,11 @@ import ManagerNavigation from '../Header/ManagerNavgiation';
 
                            <OrgChart nodes={
                                      [{id: 1, name: "Arjun Reddy" , title: "Director","Department": "HR" },
-                                     {id: 2, pid: 1, name: "Bhuvan Kumar" , title: "Senior Manager","Department": "IT" },
+                                     {id: 2, pid: 1, name: "Vaibhav Raut" , title: "Senior Manager","Department": "IT" },
                                      {id: 3, pid: 1, name: "Amit Gupta" , title: "Senior Specialist" ,"Department": "IT"},
-                                     {id: 4, pid: 2, name: "Rohit Jais" , title: "Programmer" ,"Department": "IT"},
-                                     {id: 5, pid: 2, name: "Mohit shaikh" , title: "Specialist","Department": "Marketing" },
-                                     {id: 6, pid: 5, name: "Arun Kamble" , title: "Developer","Department": "IT" },
+                                     {id: 4, pid: 2, name: "Leena Thomas" , title: "Programmer" ,"Department": "IT"},
+                                     {id: 5, pid: 2, name: "Abhi Sharma" , title: "Specialist","Department": "IT" },
+                                     {id: 6, pid: 5, name: "John Rose" , title: "Developer","Department": "IT" },
                                      {id: 7, pid: 5, name: "Jyoti Pathare" , title: "Developer","Department": "IT" }]} />
                   </div>
                   </div>
@@ -53,6 +82,7 @@ import ManagerNavigation from '../Header/ManagerNavgiation';
                   <Footer></Footer>
                   </div>
                 );
+               }
               }
             }
             export default mycharttest;

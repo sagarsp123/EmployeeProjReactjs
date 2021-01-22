@@ -4,7 +4,7 @@ import React,  { Component} from 'react';
 import {Table} from 'react-bootstrap';
 import {Button, ButtonToolbar} from 'react-bootstrap';
 import {AddDepModal} from './AddDepModal';
-
+import Headerlogin from '../Header/Headerlogin';
 import EditDepModal from './EditDepModal';
 import DeleteDepModal from './DeleteDepModal';
 import Navigation from '../Header/Navigation';
@@ -34,9 +34,14 @@ class Department extends Component {
         //     deps:[{"DepartmentID":1,"DepartmentName":"IT"},
         //     {"DepartmentID":2,"DepartmentName":"Support"}]
         // })
+        const options = {
+            method: "GET",
+            headers: new Headers({'Authorization':'bearer '+this.state.userdata.secureToken}),
+            mode: 'cors'
+        };
         
         //Consuming values from Api (GET method)
-        fetch(configData.URL+'/departments')
+        fetch(configData.URL+'/departments',options)
         .then(response=> response.json())
         .then(data=> {
             this.setState({
@@ -72,7 +77,25 @@ class Department extends Component {
     //     }
     // }
 
-    render() { 
+    render() {
+        if (this.state.userdata.secureToken==null) {
+            return(
+              <div className="page-container">
+              <Headerlogin></Headerlogin>
+            <div className="content-wrap">
+            <div className="container">
+              
+                <h2 className="styleObj1">
+                    Please login in the Employee Portal
+                </h2>
+                <p className="styleObj"><a href="/">Click here</a></p>
+                </div>
+                </div>
+                <Footer></Footer>
+                </div>
+            )
+           }
+           else{
         const{deps,depid,depname,deptLocation}=this.state;
         let addModalClose =() => this.setState({addModalShow:false});
         let editModalClose =() => this.setState({editModalShow:false});
@@ -126,7 +149,7 @@ class Department extends Component {
                                     </Button>                                     */}
                                     <Button
                                     className="m-2"
-                                    onClick={()=> this.setState({deleteModalShow:true,depid:dep.departmentID})} variant="danger"
+                                    onClick={()=> this.setState({deleteModalShow:true,depid:dep.departmentID,depname:dep.departmentName})} variant="danger"
                                     >
                                     Delete
                                     </Button>
@@ -141,8 +164,9 @@ class Department extends Component {
                                     <DeleteDepModal 
                                     show = {this.state.deleteModalShow}
                                     onHide = {deleteModalClose}
-                                    depid = {depid}>
-
+                                    depid = {depid}
+                                    depname={depname}>
+                                    
                                     </DeleteDepModal>
                             </ButtonToolbar>
                          
@@ -151,7 +175,7 @@ class Department extends Component {
                         )}
                 </tbody>
             </Table>
-            <ButtonToolbar>
+            <ButtonToolbar style={{marginLeft:'43%'}}>
                 <Button className="GeryButtonCss" variant="grey" onClick={()=> this.setState({addModalShow:true})}>
                  Add Department
                 </Button>
@@ -165,6 +189,7 @@ class Department extends Component {
         <Footer></Footer>
             </div>
          );
+      }
     }
 }
  

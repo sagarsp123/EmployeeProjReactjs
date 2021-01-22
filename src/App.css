@@ -79,10 +79,23 @@
   background-color: gray;
   color: white;
 }
+.styleObj1 {
+  margin-top: 5%;
+  text-align: center;
+}
+.styleObj {
+  text-align: center;
+}
 
 .PoupButtonCss {
   margin-top: 5%;
   background-color: gray;
+  color: white;
+}
+
+.PopupCloseButtonCss {
+  margin-top: 10%;
+  background-color: red;
   color: white;
 }
 

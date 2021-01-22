@@ -4,7 +4,7 @@ import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 //Creating bootstrap Grid
 import {Table} from 'react-bootstrap';
-
+import Headerlogin from '../Header/Headerlogin';
 import {Button, ButtonToolbar} from 'react-bootstrap';
 import * as moment from 'moment';
 import AddEmpModal from './AddEmpModal';
@@ -31,9 +31,15 @@ class Employee extends Component {
 
     refreshList(){        
         //Consuming values from Api (GET method)
-        fetch(configData.URL+'/employees')
+        const options = {
+            method: "GET",
+            headers: new Headers({'Authorization':'bearer '+this.state.userdata.secureToken}),
+            mode: 'cors'
+        };
+        fetch(configData.URL+'/employees',options)
         .then(response=> response.json())
         .then(data=> {
+            console.log("data",data);
             this.setState({
                 emps:data
             });
@@ -60,8 +66,26 @@ class Employee extends Component {
     // }
 
     render() { 
+        if (this.state.userdata.secureToken==null) {
+            return(
+              <div className="page-container">
+              <Headerlogin></Headerlogin>
+            <div className="content-wrap">
+            <div className="container">
+              
+                <h2 className="styleObj1">
+                    Please login in the Employee Portal
+                </h2>
+                <p className="styleObj"><a href="/">Click here</a></p>
+                </div>
+                </div>
+                <Footer></Footer>
+                </div>
+            )
+           }
+           else{
         console.log(this.props.location.state);
-        const{emps,empid,empname,department,mailid,doj}=this.state;
+        const{emps,empid,empname,department,mailid,doj,managerID}=this.state;
                 let addModalClose =() => this.setState({addModalShow:false});
                 let editModalClose =() => this.setState({editModalShow:false});
                 let deleteModalClose =() => this.setState({deleteModalShow:false});
@@ -109,7 +133,8 @@ class Employee extends Component {
                                         empid:emp.employeeID,empname:emp.employeeName,
                                         department: emp.department,
                                         mailid:emp.mailID,
-                                        doj:emp.doj})}>
+                                        doj:emp.doj,
+                                        managerID:emp.managerID})}>
                                             Edit
                                             </Button>
                                             {/* <Button
@@ -119,7 +144,7 @@ class Employee extends Component {
                                             </Button> */}
                                             <Button
                                             className="m-2"
-                                            onClick={()=> this.setState({deleteModalShow:true,empid:emp.employeeID})} 
+                                            onClick={()=> this.setState({deleteModalShow:true,empid:emp.employeeID,empname:emp.employeeName})} 
                                             variant="danger">
                                              Delete
                                             </Button>
@@ -131,11 +156,13 @@ class Employee extends Component {
                                              department = {department}
                                              mailid = {mailid}
                                              doj = {doj}
+                                             managerID = {managerID}
                                             ></EditEmpModal>
                                              <DeleteEmpModal 
                                              show = {this.state.deleteModalShow}
                                              onHide = {deleteModalClose}
-                                             empid = {empid}>
+                                             empid = {empid}
+                                             empname={empname}>
 
                                              </DeleteEmpModal>
                                     </ButtonToolbar>
@@ -144,7 +171,7 @@ class Employee extends Component {
                                 )}
                         </tbody>
                     </Table>
-                <ButtonToolbar>
+                <ButtonToolbar style={{marginLeft:'42%'}}>
                     <Button className="GeryButtonCss" variant="grey"  onClick={()=> this.setState({addModalShow:true})}>
                          Add Employee
                     </Button>
@@ -157,6 +184,7 @@ class Employee extends Component {
         <Footer></Footer>
      </div>
          );
+      }
     }
 }
  

@@ -11,12 +11,19 @@ class AddEmpModal extends Component {
     constructor(props){
         super(props);
 
-        this.state = {deps:[],snackbaropen:false,snackbarmsg:'', EmailID:"",emailAddressError: ""};
+        this.state = {deps:[],snackbaropen:false,snackbarmsg:'', EmailID:"",emailAddressError: "",isLoading:true,userdata:[]};
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
         this.validateEmailAddress = this.validateEmailAddress.bind(this);
         this.validateField = this.validateField.bind(this);
+    }
+
+    componentWillMount(){
+      localStorage.getItem('currentUser') && this.setState({
+          userdata:JSON.parse(localStorage.getItem('currentUser')),
+          isLoading:false
+      })
     }
 
     handleChange(event) {
@@ -57,7 +64,16 @@ class AddEmpModal extends Component {
 
     //Collecting all department details using api which can be used as value for Department drop-down list
     componentDidMount(){
-        fetch(configData.URL+'/departments')
+      
+        fetch(configData.URL+'/departments',{
+          'method': 'GET',
+          'mode': 'cors',
+          'headers': {
+            'Content-Type': 'application/json; charset=utf-8;',
+            //'Content-Type':'application/x-www-form-urlencoded',
+          'Authorization':'bearer '+this.state.userdata.secureToken
+        }
+        })
         .then(response=> response.json())
         .then(data=> {
             this.setState({
@@ -80,7 +96,8 @@ class AddEmpModal extends Component {
             method:'POST',
             headers:{
               'Accept':'application/json',
-              'Content-Type':'application/json'
+              'Content-Type':'application/json',
+              'Authorization':'bearer '+this.state.userdata.secureToken
             },
             body:JSON.stringify({
               employeeID:0,
@@ -132,15 +149,15 @@ class AddEmpModal extends Component {
             aria-labelledby="contained-modal-title-vcenter"
             centered
           >
-            <Modal.Header closeButton>
-              <Modal.Title id="contained-modal-title-vcenter">
+            <Modal.Header style={{backgroundColor:'lightgrey'}} closeButton>
+              <Modal.Title id="contained-modal-title-vcenter" style={{marginLeft:'40%'}}>
                 Add Employee
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body style={{marginLeft:'19%'}}>
             
                 <Row>
-                  <Col sm={8}>
+                  <Col sm={9}>
                     <Form onSubmit={this.handleSubmit}>
                       <Form.Group  as={Row} controlId="EmployeeName">
                         <Form.Label column sm="4">Employee Name</Form.Label>
@@ -181,19 +198,22 @@ class AddEmpModal extends Component {
                         <Form.Control type="date" name="DOJ" required placeholder="DOJ"></Form.Control>
                         </Col>
                       </Form.Group>
-                      <Form.Group>
-                        <Button className="PoupButtonCss" variant="grey" type="submit">
+                      <Form.Group as={Row} style={{marginLeft:'29%',marginRight:'-15%'}}>
+                        <Button column sm="4" className="PoupButtonCss" variant="grey" type="submit">
                           Add Employee
                         </Button>
+                        <Col sm="8">
+                        <Button variant='danger' className="PopupCloseButtonCss" onClick={this.props.onHide}>Close</Button>
+                        </Col>
                       </Form.Group>
                     </Form>
                   </Col>
                 </Row>
            
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant='danger' onClick={this.props.onHide}>Close</Button>
-            </Modal.Footer>
+            {/* <Modal.Footer>
+            <Button variant='danger' onClick={this.props.onHide}>Close</Button>
+            </Modal.Footer> */}
           </Modal>
            </div>
         );

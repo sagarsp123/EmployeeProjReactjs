@@ -5,6 +5,7 @@ import SwitchPath from '../SwitchPath';
 import Navigation from '../Header/Navigation';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
+import Headerlogin from '../Header/Headerlogin';
 import Signup from '../Login/Signup';
 import ManagerNavigation from '../Header/ManagerNavgiation';
 import '../Aboutus.css'
@@ -32,6 +33,24 @@ class Home extends Component {
 
    
     render() { 
+        if (this.state.userdata.secureToken==null) {
+            return(
+              <div className="page-container">
+              <Headerlogin></Headerlogin>
+            <div className="content-wrap">
+            <div className="container">
+              
+                <h2 className="styleObj1">
+                    Please login in the Employee Portal
+                </h2>
+                <p className="styleObj"><a href="/">Click here</a></p>
+                </div>
+                </div>
+                <Footer></Footer>
+                </div>
+            )
+           }
+        else{
         console.log(this.props.location.state);
         console.log("Userdata",this.state.userdata);
         console.log("ApiUrl",this.state.ApiUrlData);
@@ -89,6 +108,7 @@ class Home extends Component {
             </div>
            
          );
+    }
     }
 }
  

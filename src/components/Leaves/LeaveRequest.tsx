@@ -3,6 +3,7 @@ import {Table, Button, Row, Col, Form,Image} from 'react-bootstrap';
 import FileUpload from './FileUpload';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
+import Headerlogin from '../Header/Headerlogin';
 import Navigation from '../Header/Navigation';
 import moment from 'moment';
 import ManagerNavigation from '../Header/ManagerNavgiation';
@@ -17,8 +18,10 @@ interface userdata {
     employeeName: string,
     profilePassword: string,
     userID: number,
-    userRole: string
+    userRole: string,
+    secureToken:string
 }
+
 
 class LeaveRequest extends Component<userdata> {
   state={
@@ -28,6 +31,7 @@ class LeaveRequest extends Component<userdata> {
     TLeaves: null,
     EmployeeID:0,
     userRole:"",
+    secureToken:"null",
     d1:0,
     d2:0,
     diff:0,
@@ -81,7 +85,10 @@ class LeaveRequest extends Component<userdata> {
     console.log("userInfo",obj.employeeID);
     this.state.EmployeeID=obj.employeeID;
     this.state.userRole = obj.userRole;
-    console.log("Emp",this.state.userRole);
+    this.state.secureToken = obj.secureToken;
+
+
+    // console.log("Emp",this.state.userRole);
 }
 
   handleChange(event:any) {
@@ -127,7 +134,8 @@ class LeaveRequest extends Component<userdata> {
       method:'POST',
       headers:{
         'Accept':'application/json',
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
+        'Authorization':'bearer '+this.state.secureToken
       },
       body:JSON.stringify({
         leaveID:0,
@@ -164,17 +172,31 @@ class LeaveRequest extends Component<userdata> {
   }
 
   handleHistory =() =>{
+    let token = 'Bearer  ' + this.state.secureToken.toString();
+    console.log(token);
+    const headers = { 'Content-Type': 'application/json' }
+    const requestHeaders: HeadersInit = new Headers();
+    requestHeaders.set('Content-Type', 'application/json');
+    requestHeaders.set('method', 'GET');
     this.setState({isTable:"block"});
         //Consuming values from Api (GET method)
-        fetch(configData.URL+'/LeaveDetails/'+this.state.EmployeeID)
+        fetch(configData.URL+'/LeaveDetails/'+this.state.EmployeeID,{
+          'method': 'GET',
+          'mode': 'cors',
+          'headers': {
+            'Content-Type': 'application/json; charset=utf-8;',
+            //'Content-Type':'application/x-www-form-urlencoded',
+          'Authorization':'bearer '+this.state.secureToken
+        }
+        })
         .then(response=> response.json())
-        .then(data=> {
+        .then(data=> 
             this.setState({
                 leaves:data          
-            });
-            console.log(data);
-        }  
-        );
+            })
+          
+        )
+         .catch(err => console.error('Caught errors: ', err));
   };
 
 
@@ -183,16 +205,20 @@ class LeaveRequest extends Component<userdata> {
     this.setState({snackbaropen:false});
     };
 
-    render() { 
+    render() {
+      console.log("Secure",this.state.secureToken);
+      if (this.state.secureToken != "null") {
+      
       // console.log(this.props.location.state);
       const{leaves}=this.state;
       let comp:any;
-      if(this.state.userRole =='Employee') {
+      if(this.state.userRole.localeCompare('Employee')) {
           comp = <Navigation></Navigation>
         } else {
           comp = <ManagerNavigation></ManagerNavigation>
         }
         return ( 
+          
           <div className="page-container">
           <Header></Header>
        {comp}
@@ -319,6 +345,25 @@ class LeaveRequest extends Component<userdata> {
       </div>
    
          );
+       }
+       else{
+       return(
+        <div className="page-container">
+        <Headerlogin></Headerlogin>
+      <div className="content-wrap">
+      <div className="container">
+        
+          <h2 className="styleObj1">
+              Please login in the Employee Portal
+          </h2>
+          <p className="styleObj"><a href="/">Click here</a></p>
+          </div>
+          </div>
+          <Footer></Footer>
+          </div>
+      )
+     }
+  
     }
 }
 

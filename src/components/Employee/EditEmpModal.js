@@ -12,13 +12,20 @@ class EditEmpModal extends Component {
         super(props);
 
         this.state = {deps:[],snackbaropen:false,snackbarmsg:'',  EmailID:this.props.mailid,
-        emailAddressError: "",Doj:this.props.doj};
+        emailAddressError: "",Doj:this.props.doj,isLoading:true,userdata:[]};
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
         this.validateEmailAddress = this.validateEmailAddress.bind(this);
         this.validateField = this.validateField.bind(this);
+    }
+
+    componentWillMount(){
+      localStorage.getItem('currentUser') && this.setState({
+          userdata:JSON.parse(localStorage.getItem('currentUser')),
+          isLoading:false
+      })
     }
 
     handleChange(event) {
@@ -59,7 +66,15 @@ class EditEmpModal extends Component {
 
     //Collecting all department details using api which can be used as value for Department drop-down list
     componentDidMount(){
-        fetch(configData.URL+'/departments')
+        fetch(configData.URL+'/departments',{
+          'method': 'GET',
+          'mode': 'cors',
+          'headers': {
+            'Content-Type': 'application/json; charset=utf-8;',
+            //'Content-Type':'application/x-www-form-urlencoded',
+          'Authorization':'bearer '+this.state.userdata.secureToken
+        }
+        })
         .then(response=> response.json())
         .then(data=> {
             this.setState({
@@ -82,14 +97,16 @@ class EditEmpModal extends Component {
             method:'PUT',
             headers:{
               'Accept':'application/json',
-              'Content-Type':'application/json'
+              'Content-Type':'application/json',
+              'Authorization':'bearer '+this.state.userdata.secureToken
             },
             body:JSON.stringify({
               employeeID:event.target.EmployeeID.value,
               employeeName: event.target.EmployeeName.value,
               department: event.target.Department.value,
               mailID: event.target.EmailID.value,
-              doj:this.state.Doj
+              doj:event.target.DOJ.value,
+              managerID:1
             })
           })
           .then(res=> {res.json()
@@ -136,15 +153,15 @@ class EditEmpModal extends Component {
             aria-labelledby="contained-modal-title-vcenter"
             centered
           >
-            <Modal.Header closeButton>
-              <Modal.Title id="contained-modal-title-vcenter">
+            <Modal.Header style={{backgroundColor:'lightgrey'}} closeButton>
+              <Modal.Title id="contained-modal-title-vcenter" style={{marginLeft:'39%'}}>
                 Edit Employee
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body style={{marginLeft:'19%'}}>
             
                 <Row>
-                  <Col sm={8}>
+                  <Col sm={9}>
                     <Form onSubmit={this.handleSubmit}>
                     <Form.Group style={{display:"none"}} controlId="EmployeeID">
                         <Form.Label>EmployeeID</Form.Label>
@@ -185,19 +202,22 @@ class EditEmpModal extends Component {
                         <Form.Control type="datetime" disabled name="DOJ" required defaultValue={moment(this.props.doj).format('DD/MM/YYYY')} placeholder="DOJ"></Form.Control>
                         </Col>
                       </Form.Group>
-                      <Form.Group>
-                        <Button  className="PoupButtonCss" variant="grey" type="submit">
+                      <Form.Group  as={Row} style={{marginLeft:'21%'}}>
+                        <Button  column sm="5"  className="PoupButtonCss" variant="grey" type="submit">
                           Update Employee
                         </Button>
-                      </Form.Group>
+                        <Col sm="7">
+                        <Button variant="danger" className="PopupCloseButtonCss" onClick={this.props.onHide}>Close</Button>
+                          </Col>
+                      </Form.Group>      
                     </Form>
                   </Col>
                 </Row>
            
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="danger" onClick={this.props.onHide}>Close</Button>
-            </Modal.Footer>
+            {/* <Modal.Footer>
+             
+            </Modal.Footer> */}
           </Modal>
            </div>
          );

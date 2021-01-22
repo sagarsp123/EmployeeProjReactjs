@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Table, Row, Col, Form} from 'react-bootstrap';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
+import Headerlogin from '../Header/Headerlogin';
 import "../Aboutus.css";
 import moment from 'moment';
 import Navigation from '../Header/Navigation';
@@ -14,7 +15,8 @@ interface userdata {
     employeeName: string,
     profilePassword: string,
     userID: number,
-    userRole: string
+    userRole: string,
+    secureToken:string
 }
 
 class Myprofile extends Component<userdata> {
@@ -22,6 +24,7 @@ class Myprofile extends Component<userdata> {
   state = {
     EmployeeID:0,
     userRole:"",
+    secureToken:"null",
     employeeName:"",
     department: "",
     mailID:"",
@@ -56,6 +59,8 @@ class Myprofile extends Component<userdata> {
 
     console.log("userInfo",obj.employeeID);
     this.state.EmployeeID=obj.employeeID;
+    this.state.userRole=obj.userRole;
+    this.state.secureToken = obj.secureToken;
     this.refreshList();
 }
 
@@ -70,7 +75,14 @@ refreshList(){
 
   
   //Consuming values from Api (GET method)
-  fetch(configData.URL+'/employees/'+this.state.EmployeeID)
+  fetch(configData.URL+'/employees/'+this.state.EmployeeID,{
+    'method': 'GET',
+    'mode': 'cors',
+    'headers': {
+      'Content-Type': 'application/json; charset=utf-8;',
+    'Authorization':'bearer '+this.state.secureToken
+  }
+  })
   .then(response=> response.json())
   .then(data=> {
       this.setState({
@@ -81,7 +93,7 @@ refreshList(){
 
                
       });
-      console.log("Emp",data);
+      console.log("Emp",this.state.userRole);
       
   }  
   );
@@ -89,6 +101,24 @@ refreshList(){
  
 }
     render() { 
+      if (this.state.secureToken) {
+        return(
+          <div className="page-container">
+          <Headerlogin></Headerlogin>
+        <div className="content-wrap">
+        <div className="container">
+          
+            <h2 className="styleObj1">
+                Please login in the Employee Portal
+            </h2>
+            <p className="styleObj"><a href="/">Click here</a></p>
+            </div>
+            </div>
+            <Footer></Footer>
+            </div>
+        )
+       }
+       else{
       const {profiles} = this.state;
       console.log(profiles);
       let comp:any;
@@ -170,6 +200,7 @@ refreshList(){
                  <Footer></Footer>
                  </div>
          );
+      }
     }
 }
  

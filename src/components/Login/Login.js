@@ -91,7 +91,7 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    fetch(configData.URL+'/userdetails/'+event.target.EmailID.value)
+    fetch(configData.URL+'/userdetails/login?EmailID='+event.target.EmailID.value+'&password='+event.target.Password.value)
     .then(response=> response.json())
     .then(data=> {
         this.setState({
